@@ -11,7 +11,7 @@ using System.Windows.Forms;
 using Microsoft.WindowsAPICodePack.Dialogs;
 using myFunctions;
 using ExifLib;
-using ExifLibrary;
+using ExifLibrary; 
 
 
 namespace PhotoSort
