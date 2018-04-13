@@ -37,8 +37,6 @@
             this.colTimeShift = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.btnDel = new System.Windows.Forms.Button();
             this.btnAdd = new System.Windows.Forms.Button();
-            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.toolStripProgressBar1 = new System.Windows.Forms.ToolStripProgressBar();
             this.btnStart = new System.Windows.Forms.Button();
             this.gbDestination = new System.Windows.Forms.GroupBox();
             this.btnDestFolder = new System.Windows.Forms.Button();
@@ -51,17 +49,16 @@
             this.chbSetImgDate = new System.Windows.Forms.CheckBox();
             this.chbWriteToExif = new System.Windows.Forms.CheckBox();
             this.txtLog = new System.Windows.Forms.RichTextBox();
+            this.progBar = new System.Windows.Forms.ProgressBar();
             this.gbSources.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.olvFolders)).BeginInit();
-            this.statusStrip1.SuspendLayout();
             this.gbDestination.SuspendLayout();
             this.gbSettings.SuspendLayout();
             this.SuspendLayout();
             // 
             // gbSources
             // 
-            this.gbSources.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.gbSources.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.gbSources.Controls.Add(this.btnClear);
             this.gbSources.Controls.Add(this.olvFolders);
@@ -147,21 +144,6 @@
             this.btnAdd.UseVisualStyleBackColor = true;
             this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
             // 
-            // statusStrip1
-            // 
-            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripProgressBar1});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 467);
-            this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(645, 22);
-            this.statusStrip1.TabIndex = 1;
-            this.statusStrip1.Text = "statusStrip1";
-            // 
-            // toolStripProgressBar1
-            // 
-            this.toolStripProgressBar1.Name = "toolStripProgressBar1";
-            this.toolStripProgressBar1.Size = new System.Drawing.Size(100, 16);
-            // 
             // btnStart
             // 
             this.btnStart.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
@@ -175,7 +157,7 @@
             // 
             // gbDestination
             // 
-            this.gbDestination.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            this.gbDestination.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.gbDestination.Controls.Add(this.btnDestFolder);
             this.gbDestination.Controls.Add(this.txtDestFolder);
@@ -208,7 +190,7 @@
             // 
             // gbSettings
             // 
-            this.gbSettings.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            this.gbSettings.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.gbSettings.Controls.Add(this.chbClearDestFolder);
             this.gbSettings.Controls.Add(this.txtFileMask);
@@ -278,23 +260,35 @@
             // 
             // txtLog
             // 
-            this.txtLog.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            this.txtLog.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtLog.Location = new System.Drawing.Point(12, 370);
             this.txtLog.Name = "txtLog";
             this.txtLog.Size = new System.Drawing.Size(621, 94);
             this.txtLog.TabIndex = 5;
             this.txtLog.Text = "";
+            this.txtLog.TextChanged += new System.EventHandler(this.txtLog_TextChanged);
+            // 
+            // progBar
+            // 
+            this.progBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.progBar.Location = new System.Drawing.Point(12, 470);
+            this.progBar.Name = "progBar";
+            this.progBar.Size = new System.Drawing.Size(621, 15);
+            this.progBar.Step = 1;
+            this.progBar.TabIndex = 5;
             // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(645, 489);
+            this.Controls.Add(this.progBar);
             this.Controls.Add(this.txtLog);
             this.Controls.Add(this.gbSettings);
             this.Controls.Add(this.gbDestination);
-            this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.gbSources);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmMain";
@@ -303,14 +297,11 @@
             this.Load += new System.EventHandler(this.frmMain_Load);
             this.gbSources.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.olvFolders)).EndInit();
-            this.statusStrip1.ResumeLayout(false);
-            this.statusStrip1.PerformLayout();
             this.gbDestination.ResumeLayout(false);
             this.gbDestination.PerformLayout();
             this.gbSettings.ResumeLayout(false);
             this.gbSettings.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -319,7 +310,6 @@
         private System.Windows.Forms.GroupBox gbSources;
         private System.Windows.Forms.Button btnDel;
         private System.Windows.Forms.Button btnAdd;
-        private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.Button btnStart;
         private BrightIdeasSoftware.ObjectListView olvFolders;
         private System.Windows.Forms.GroupBox gbDestination;
@@ -329,7 +319,6 @@
         private System.Windows.Forms.Button btnDestFolder;
         private System.Windows.Forms.TextBox txtDestFolder;
         private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
-        private System.Windows.Forms.ToolStripProgressBar toolStripProgressBar1;
         private System.Windows.Forms.GroupBox gbSettings;
         private System.Windows.Forms.CheckBox chbWriteToExif;
         private System.Windows.Forms.CheckBox chbSetImgDate;
@@ -338,6 +327,7 @@
         private System.Windows.Forms.Button btnClear;
         private System.Windows.Forms.RichTextBox txtLog;
         private System.Windows.Forms.CheckBox chbClearDestFolder;
+        private System.Windows.Forms.ProgressBar progBar;
     }
 }
 

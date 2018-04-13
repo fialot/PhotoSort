@@ -10,6 +10,8 @@ using System.Windows.Forms;
 
 using Microsoft.WindowsAPICodePack.Dialogs;
 using myFunctions;
+using ExifLib;
+using ExifLibrary;
 
 
 namespace PhotoSort
@@ -23,6 +25,15 @@ namespace PhotoSort
 
         List<PhotoFile> PhotoList;
         AbortableBackgroundWorker process;
+
+        public struct sortSettings
+        {
+            public bool WriteShiftedTime;
+            public bool SetImgTime;
+            public bool ClearFolder;
+            public string DestFolder;
+            public string FileMask;
+        }
 
         private void frmMain_Load(object sender, EventArgs e)
         {
@@ -82,76 +93,47 @@ namespace PhotoSort
 
         private void btnStart_Click(object sender, EventArgs e)
         {
-            DateTime date;
-            bool rewriteExif;
-            PhotoList = new List<PhotoFile>();
-
-            txtLog.AppendText("Creating file list..." + Environment.NewLine);
-
-            foreach (ffolder item in olvFolders.Objects)
+            if ((string)btnStart.Tag != "run")
             {
-                try
+                if (!System.IO.Directory.Exists(txtDestFolder.Text))
                 {
-                    string[] fileList = System.IO.Directory.GetFiles(item.Path);
-                    foreach (string file in fileList)
-                    {
-                        rewriteExif = false;
-                        date = GetImgDate(file);
-                        if (item.TimeShift != TimeSpan.Zero)
-                        {
-                            date += item.TimeShift;
-                            if (chbWriteToExif.Checked) rewriteExif = true;
-                        }
-
-
-                        PhotoList.Add(new PhotoFile(file, item.Name, item.TimeShift, date, rewriteExif));
-                    }
-                } catch (Exception Err)
-                {
-                    txtLog.AppendText("Error: " + Err.Message + Environment.NewLine);
+                    MessageBox.Show("Destination directory not exits!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
                 }
-                
+
+                if (olvFolders.Items.Count == 0)
+                {
+                    MessageBox.Show("No input folders!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                sortSettings set;
+                set.ClearFolder = chbClearDestFolder.Checked;
+                set.SetImgTime = chbSetImgDate.Checked;
+                set.WriteShiftedTime = chbWriteToExif.Checked;
+                set.DestFolder = txtDestFolder.Text;
+                set.FileMask = txtFileMask.Text;
+
+                process = new AbortableBackgroundWorker();
+                process.DoWork += Sorting;
+                process.RunWorkerCompleted += WorkComplete;
+                process.ProgressChanged += ProgressChanged;
+                process.RunWorkerAsync(set);
+                process.WorkerSupportsCancellation = true;
+                process.WorkerReportsProgress = true;
+
+                btnStart.Text = "Stop";
+                btnStart.Tag = "run";
+                txtLog.Text = "";
+                progBar.Value = 0;
+            }
+            else
+            {
+                process.CancelAsync();
+                process.Abort();
+                process.Dispose();
             }
 
-            txtLog.AppendText("Sorting..." + Environment.NewLine);
-            PhotoList = PhotoList.OrderBy(o => o.Date).ToList();
-
-            // ----- Delete destination folder -----
-            if (chbClearDestFolder.Checked)
-            {
-                string[] destFileList = System.IO.Directory.GetFiles(txtDestFolder.Text);
-                foreach (string item in destFileList) System.IO.File.Delete(item);
-            }
-
-            // ----- Copy -----
-
-            txtLog.AppendText("Copying..." + Environment.NewLine);
-            for (int i = 0; i < PhotoList.Count; i++)
-            {
-                try
-                {
-                    string destPath = txtDestFolder.Text + System.IO.Path.DirectorySeparatorChar + Format(txtFileMask.Text, i + 1, System.IO.Path.GetFileName(PhotoList[i].Path), PhotoList[i].Folder, PhotoList[i].Date);
-                    if (PhotoList[i].RewriteExif)
-                    {
-                        SetImgDate(PhotoList[i].Path, PhotoList[i].Date, destPath);
-                    } else 
-                        System.IO.File.Copy(PhotoList[i].Path, destPath, true);
-                    if (chbSetImgDate.Checked)
-                    {
-                        System.IO.File.SetCreationTime(destPath, PhotoList[i].Date);
-                        System.IO.File.SetLastWriteTime(destPath, PhotoList[i].Date);
-                    }
-                        
-                }
-                catch (Exception err)
-                {
-                    txtLog.AppendText("Error: " + err.Message);
-                }
-            }
-
-            txtLog.AppendText("Done." + Environment.NewLine);
-            MessageBox.Show("Done");
-            
         }
 
         private string Format(string format, int index, string fileName, string folderName, DateTime date)
@@ -192,60 +174,69 @@ namespace PhotoSort
             return format + ext;
         }
 
+        enum dateImgStat { None, Exif, File}
+
 
         private DateTime GetImgDate(string path)
         {
-            Image img = Bitmap.FromFile(path);
+            dateImgStat status;
+            return GetImgDate(path, out status);
+        }
 
-            foreach (System.Drawing.Imaging.PropertyItem item in img.PropertyItems)
+        private DateTime GetImgDate(string path, out dateImgStat status)
+        {
+            DateTime date;
+            status = dateImgStat.None;
+            try
             {
-                if (item.Id == 36867)
+                try
                 {
-                    img.Dispose();
-                    return GetDate(item.Value, item.Len);
-                }
-            }
+                    using (ExifReader reader = new ExifReader(path))
+                    {
+                        if (reader.GetTagValue<DateTime>(ExifTags.DateTimeOriginal, out date))
+                        {
+                            status = dateImgStat.Exif;
+                            return date;
+                        }
+                        else if (reader.GetTagValue<DateTime>(ExifTags.DateTimeDigitized, out date))
+                        {
+                            status = dateImgStat.Exif;
+                            return date;
+                        }
+                        else if (reader.GetTagValue<DateTime>(ExifTags.DateTime, out date))
+                        {
+                            status = dateImgStat.Exif;
+                            return date;
+                        }
+                    }
 
-            foreach (System.Drawing.Imaging.PropertyItem item in img.PropertyItems)
+                } catch { }
+
+                status = dateImgStat.File;
+                return System.IO.File.GetCreationTime(path);
+            }
+            catch
             {
-                if (item.Id == 306)
-                {
-                    img.Dispose();
-                    return GetDate(item.Value, item.Len);
-                }
+                status = dateImgStat.None;
+                return DateTime.MinValue;
             }
-
-            img.Dispose();
-            return DateTime.MinValue;
         }
 
         private bool SetImgDate(string path, DateTime date, string destPath)
         {
             try
             {
-                Image img = Bitmap.FromFile(path);
-
-                foreach (System.Drawing.Imaging.PropertyItem item in img.PropertyItems)
+                ImageFile file = ImageFile.FromFile(path);
+                foreach (ExifProperty item in file.Properties)
                 {
-                    if (item.Id == 306)
-                    {
-                        item.Value = SetDate(date);
-                        img.SetPropertyItem(item);
-                    }
-                    else if (item.Id == 36867)
-                    {
-                        item.Value = SetDate(date);
-                        img.SetPropertyItem(item);
-                    }
-                    else if (item.Id == 36868)
-                    {
-                        item.Value = SetDate(date);
-                        img.SetPropertyItem(item);
-                    }
+                    if (item.Name == "DateTime")
+                        item.Value = date;
+                    if (item.Name == "DateTimeOriginal")
+                        item.Value = date;
+                    if (item.Name == "DateTimeDigitized")
+                        item.Value = date;
                 }
-
-                img.Save(destPath);
-                img.Dispose();
+                file.Save(destPath);
             }
             catch
             {
@@ -296,5 +287,176 @@ namespace PhotoSort
             Properties.Settings.Default.Save();
         }
 
+        private void Log(string text, Color color)
+        {
+            Invoke(new Action(() =>
+            {
+                txtLog.Select(txtLog.Text.Length, 0);
+                txtLog.SelectionColor = color;
+                txtLog.AppendText(text + Environment.NewLine);
+            }));
+        }
+
+
+        private void Sorting(object sender, DoWorkEventArgs e)
+        {
+            const int progSearch = 50;
+
+            DateTime date;
+            bool rewriteExif;
+            PhotoList = new List<PhotoFile>();
+            sortSettings set = (sortSettings)e.Argument;
+            AbortableBackgroundWorker worker = (AbortableBackgroundWorker)sender;
+            float progress = 0;
+            float progresFInc = 0, progresInc = 0;
+
+
+            // ----- Creating file list -----
+            Log("Creating file list...", Color.Black);
+            int folderCount = olvFolders.Items.Count;
+            if (folderCount == 0)
+            {
+                Log("Warning: No input folders!", Color.Orange);
+                return;
+            }
+            progresFInc = progSearch / folderCount;
+            foreach (ffolder item in olvFolders.Objects)
+            {
+                string procFile = "";
+                try
+                {
+                    // ----- Search folders -----
+                    Log("Search in: " + item.Path, Color.Black);
+                    string[] fileList = System.IO.Directory.GetFiles(item.Path);
+                    progresInc = progresFInc / fileList.Length;
+                    foreach (string file in fileList)
+                    {
+                        procFile = System.IO.Path.GetFileName(file);
+                        rewriteExif = false;
+                        dateImgStat status;
+                        date = GetImgDate(file, out status);
+                        if (status == dateImgStat.File) Log("Warning in " + procFile + ": No image time in EXIF -> Using File date", Color.Orange);
+
+                        if (date != DateTime.MinValue)
+                        {
+                            if (item.TimeShift != TimeSpan.Zero)
+                            {
+                                date += item.TimeShift;
+                                if (set.WriteShiftedTime) rewriteExif = true;
+                            }
+                        }
+                        else
+                            Log("Warning in " + procFile + ": No valid image time.", Color.Orange);
+
+                        PhotoList.Add(new PhotoFile(file, item.Name, item.TimeShift, date, rewriteExif));
+                        progress += progresInc;
+                        worker.ReportProgress((int)progress);
+                    }
+                }
+                catch (Exception Err)
+                {
+                    Log("Error in " + procFile + ": " + Err.Message, Color.Red);
+                }
+
+            }
+
+            // ----- Check if found photos -----
+            if (PhotoList.Count == 0)
+            {
+                Log("Warning: No photos found!", Color.Orange);
+                return;
+            }
+
+            // ----- Sorting -----
+            Log("Sorting...", Color.Black);
+            PhotoList = PhotoList.OrderBy(o => o.Date).ToList();
+
+            // ----- Delete destination folder -----
+            if (set.ClearFolder)
+            {
+                string[] destFileList = System.IO.Directory.GetFiles(txtDestFolder.Text);
+                foreach (string item in destFileList) System.IO.File.Delete(item);
+            }
+
+            // ----- Copy -----
+            Log("Copying...", Color.Black);
+            progresInc = (100.0f - progSearch) / PhotoList.Count;
+            for (int i = 0; i < PhotoList.Count; i++)
+            {
+                try
+                {
+                    string destPath = set.DestFolder  + System.IO.Path.DirectorySeparatorChar + Format(set.FileMask, i + 1, System.IO.Path.GetFileName(PhotoList[i].Path), PhotoList[i].Folder, PhotoList[i].Date);
+                    if (PhotoList[i].RewriteExif)
+                    {
+                        SetImgDate(PhotoList[i].Path, PhotoList[i].Date, destPath);
+                    }
+                    else
+                        System.IO.File.Copy(PhotoList[i].Path, destPath, true);
+                    if (set.SetImgTime)
+                    {
+                        if (PhotoList[i].Date != DateTime.MinValue)
+                        {
+                            System.IO.File.SetCreationTime(destPath, PhotoList[i].Date);
+                            System.IO.File.SetLastWriteTime(destPath, PhotoList[i].Date);
+                        }
+                        else
+                        {
+                            Log("Warning in " + System.IO.Path.GetFileName(destPath) + ": File time from EXIF not saved (no time in EXIF).", Color.Orange);
+                        }
+                        
+                    }
+                    progress += progresInc;
+                    worker.ReportProgress((int)progress);
+                }
+                catch (Exception Err)
+                {
+                    Log("Error in " + System.IO.Path.GetFileName(PhotoList[i].Path) + ": " + Err.Message, Color.Red);
+                }
+            }
+            worker.ReportProgress(100);
+        }
+
+        private void WorkComplete(object sender, RunWorkerCompletedEventArgs e)
+        {
+            Invoke(new Action(() =>
+            {
+                txtLog.Select(txtLog.Text.Length, 0);
+                txtLog.SelectionColor = Color.Black;
+
+                if (e.Cancelled)
+                {
+                    Log("----- ABORTED -----", Color.Black);
+                }
+                else
+                {
+                    Log("----- WORK DONE -----", Color.Black);
+                }
+
+                btnStart.Tag = "";
+                btnStart.Text = "Start";
+                progBar.Value = 0;
+
+            }));
+
+            if (e.Cancelled)
+                MessageBox.Show("Work Aborted!");
+            else
+                MessageBox.Show("Work Complete");
+        }
+
+        private void ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            try
+            {
+                progBar.Value = e.ProgressPercentage;
+            }
+            catch (Exception) { }
+        }
+
+        private void txtLog_TextChanged(object sender, EventArgs e)
+        {
+            txtLog.SelectionStart = txtLog.Text.Length;
+            txtLog.ScrollToCaret();
+        }
     }
 }
