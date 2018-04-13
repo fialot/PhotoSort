@@ -22,6 +22,7 @@ namespace PhotoSort
         }
 
         List<PhotoFile> PhotoList;
+        AbortableBackgroundWorker process;
 
         private void frmMain_Load(object sender, EventArgs e)
         {
