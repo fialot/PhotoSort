@@ -166,7 +166,7 @@ namespace PhotoSort
                 if (olvFolders.Items.Count == 0)
                 {
                     MessageBox.Show("No input folders!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
+                    return; 
                 }
 
                 // ----- Thread Settings -----
@@ -355,8 +355,9 @@ namespace PhotoSort
                 }
                 file.Save(destPath);
             }
-            catch
+            catch (Exception Err)
             {
+
                 return false;
             }
 
