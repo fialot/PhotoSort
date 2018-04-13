@@ -76,7 +76,7 @@
             this.btnClear.Location = new System.Drawing.Point(177, 19);
             this.btnClear.Name = "btnClear";
             this.btnClear.Size = new System.Drawing.Size(75, 23);
-            this.btnClear.TabIndex = 6;
+            this.btnClear.TabIndex = 3;
             this.btnClear.Text = "Clear";
             this.btnClear.UseVisualStyleBackColor = true;
             this.btnClear.Click += new System.EventHandler(this.btnClear_Click);
@@ -102,7 +102,7 @@
             this.olvFolders.Name = "olvFolders";
             this.olvFolders.ShowGroups = false;
             this.olvFolders.Size = new System.Drawing.Size(600, 115);
-            this.olvFolders.TabIndex = 5;
+            this.olvFolders.TabIndex = 4;
             this.olvFolders.UseCompatibleStateImageBehavior = false;
             this.olvFolders.View = System.Windows.Forms.View.Details;
             // 
@@ -129,7 +129,7 @@
             this.btnDel.Location = new System.Drawing.Point(96, 19);
             this.btnDel.Name = "btnDel";
             this.btnDel.Size = new System.Drawing.Size(75, 23);
-            this.btnDel.TabIndex = 4;
+            this.btnDel.TabIndex = 2;
             this.btnDel.Text = "Remove";
             this.btnDel.UseVisualStyleBackColor = true;
             this.btnDel.Click += new System.EventHandler(this.btnDel_Click);
@@ -139,7 +139,7 @@
             this.btnAdd.Location = new System.Drawing.Point(15, 19);
             this.btnAdd.Name = "btnAdd";
             this.btnAdd.Size = new System.Drawing.Size(75, 23);
-            this.btnAdd.TabIndex = 3;
+            this.btnAdd.TabIndex = 1;
             this.btnAdd.Text = "Add";
             this.btnAdd.UseVisualStyleBackColor = true;
             this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
@@ -150,7 +150,7 @@
             this.btnStart.Location = new System.Drawing.Point(540, 87);
             this.btnStart.Name = "btnStart";
             this.btnStart.Size = new System.Drawing.Size(75, 23);
-            this.btnStart.TabIndex = 2;
+            this.btnStart.TabIndex = 14;
             this.btnStart.Text = "Start";
             this.btnStart.UseVisualStyleBackColor = true;
             this.btnStart.Click += new System.EventHandler(this.btnStart_Click);
@@ -164,7 +164,7 @@
             this.gbDestination.Location = new System.Drawing.Point(12, 187);
             this.gbDestination.Name = "gbDestination";
             this.gbDestination.Size = new System.Drawing.Size(621, 55);
-            this.gbDestination.TabIndex = 3;
+            this.gbDestination.TabIndex = 5;
             this.gbDestination.TabStop = false;
             this.gbDestination.Text = "Destination Folder";
             // 
@@ -174,7 +174,7 @@
             this.btnDestFolder.Location = new System.Drawing.Point(583, 17);
             this.btnDestFolder.Name = "btnDestFolder";
             this.btnDestFolder.Size = new System.Drawing.Size(32, 23);
-            this.btnDestFolder.TabIndex = 1;
+            this.btnDestFolder.TabIndex = 7;
             this.btnDestFolder.Text = "...";
             this.btnDestFolder.UseVisualStyleBackColor = true;
             this.btnDestFolder.Click += new System.EventHandler(this.btnDestFolder_Click);
@@ -186,7 +186,7 @@
             this.txtDestFolder.Location = new System.Drawing.Point(15, 19);
             this.txtDestFolder.Name = "txtDestFolder";
             this.txtDestFolder.Size = new System.Drawing.Size(562, 20);
-            this.txtDestFolder.TabIndex = 0;
+            this.txtDestFolder.TabIndex = 6;
             // 
             // gbSettings
             // 
@@ -201,7 +201,7 @@
             this.gbSettings.Location = new System.Drawing.Point(12, 248);
             this.gbSettings.Name = "gbSettings";
             this.gbSettings.Size = new System.Drawing.Size(621, 116);
-            this.gbSettings.TabIndex = 4;
+            this.gbSettings.TabIndex = 8;
             this.gbSettings.TabStop = false;
             this.gbSettings.Text = "Settings";
             // 
@@ -213,7 +213,7 @@
             this.chbClearDestFolder.Location = new System.Drawing.Point(188, 19);
             this.chbClearDestFolder.Name = "chbClearDestFolder";
             this.chbClearDestFolder.Size = new System.Drawing.Size(192, 17);
-            this.chbClearDestFolder.TabIndex = 4;
+            this.chbClearDestFolder.TabIndex = 10;
             this.chbClearDestFolder.Text = "Clear destination folder before copy";
             this.chbClearDestFolder.UseVisualStyleBackColor = true;
             // 
@@ -222,7 +222,7 @@
             this.txtFileMask.Location = new System.Drawing.Point(71, 68);
             this.txtFileMask.Name = "txtFileMask";
             this.txtFileMask.Size = new System.Drawing.Size(172, 20);
-            this.txtFileMask.TabIndex = 3;
+            this.txtFileMask.TabIndex = 13;
             this.txtFileMask.Text = "%i4 - %N (%F)";
             // 
             // label1
@@ -231,7 +231,7 @@
             this.label1.Location = new System.Drawing.Point(12, 71);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(59, 13);
-            this.label1.TabIndex = 2;
+            this.label1.TabIndex = 12;
             this.label1.Text = "Files mask:";
             // 
             // chbSetImgDate
@@ -242,7 +242,7 @@
             this.chbSetImgDate.Location = new System.Drawing.Point(15, 42);
             this.chbSetImgDate.Name = "chbSetImgDate";
             this.chbSetImgDate.Size = new System.Drawing.Size(131, 17);
-            this.chbSetImgDate.TabIndex = 1;
+            this.chbSetImgDate.TabIndex = 11;
             this.chbSetImgDate.Text = "Set file date from EXIF";
             this.chbSetImgDate.UseVisualStyleBackColor = true;
             // 
@@ -254,7 +254,7 @@
             this.chbWriteToExif.Location = new System.Drawing.Point(15, 19);
             this.chbWriteToExif.Name = "chbWriteToExif";
             this.chbWriteToExif.Size = new System.Drawing.Size(145, 17);
-            this.chbWriteToExif.TabIndex = 0;
+            this.chbWriteToExif.TabIndex = 9;
             this.chbWriteToExif.Text = "Write shifted time to EXIF";
             this.chbWriteToExif.UseVisualStyleBackColor = true;
             // 
@@ -266,7 +266,7 @@
             this.txtLog.Location = new System.Drawing.Point(12, 370);
             this.txtLog.Name = "txtLog";
             this.txtLog.Size = new System.Drawing.Size(621, 94);
-            this.txtLog.TabIndex = 5;
+            this.txtLog.TabIndex = 15;
             this.txtLog.Text = "";
             this.txtLog.TextChanged += new System.EventHandler(this.txtLog_TextChanged);
             // 
@@ -278,7 +278,7 @@
             this.progBar.Name = "progBar";
             this.progBar.Size = new System.Drawing.Size(621, 15);
             this.progBar.Step = 1;
-            this.progBar.TabIndex = 5;
+            this.progBar.TabIndex = 16;
             // 
             // frmMain
             // 
