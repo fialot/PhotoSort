@@ -184,7 +184,7 @@ namespace PhotoSort
                 process.ProgressChanged += ProgressChanged;
                 process.RunWorkerAsync(set);                // start thread
                 process.WorkerSupportsCancellation = true;
-                process.WorkerReportsProgress = true;
+                process.WorkerReportsProgress = true;       // turn on reporting
 
                 // ----- Set button settings -----
                 btnStart.Text = "Stop";
