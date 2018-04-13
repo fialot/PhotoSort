@@ -241,9 +241,9 @@
             this.chbSetImgDate.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chbSetImgDate.Location = new System.Drawing.Point(15, 42);
             this.chbSetImgDate.Name = "chbSetImgDate";
-            this.chbSetImgDate.Size = new System.Drawing.Size(150, 17);
+            this.chbSetImgDate.Size = new System.Drawing.Size(131, 17);
             this.chbSetImgDate.TabIndex = 1;
-            this.chbSetImgDate.Text = "Set picture date from EXIF";
+            this.chbSetImgDate.Text = "Set file date from EXIF";
             this.chbSetImgDate.UseVisualStyleBackColor = true;
             // 
             // chbWriteToExif

@@ -35,55 +35,110 @@ namespace PhotoSort
             public string FileMask;
         }
 
+        #region Form
+
+        /// <summary>
+        /// Form Load
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void frmMain_Load(object sender, EventArgs e)
         {
+            // ----- Get app version -----
             this.Text = this.Text + " v" + Application.ProductVersion.Substring(0, Application.ProductVersion.Length - 2);
 
+            // ----- Init ObjectListView -----
             System.Globalization.CultureInfo provider = System.Globalization.CultureInfo.InvariantCulture;
             olvFolders.SetObjects(new List<ffolder>());
             colTimeShift.AspectGetter = delegate (object x) { return ((ffolder)x).TimeShift.ToString(); };
             colTimeShift.AspectPutter = delegate (object x, object newValue) { try { ((ffolder)x).TimeShift = TimeSpan.Parse((string)newValue); } catch { } };
 
+            // ----- Load settings -----
             txtDestFolder.Text = Properties.Settings.Default.DestFolder;
             string[] SourceFolders = Properties.Settings.Default.SourceFolders.Split(new string[] { ";" }, StringSplitOptions.RemoveEmptyEntries);
             txtFileMask.Text = Properties.Settings.Default.Mask;
 
+            // ----- Add source folders to ObjectListView -----
             foreach (string item in SourceFolders)
             {
                 ffolder folder = new ffolder(System.IO.Path.GetFileName(item), item);
                 olvFolders.AddObject(folder);
             }
         }
-        
+
+        /// <summary>
+        /// Form Closing
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void frmMain_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            // ----- Save Settings -----
+            Properties.Settings.Default.DestFolder = txtDestFolder.Text;
+            string sourceFolder = "";
+            foreach (ffolder item in olvFolders.Objects)
+            {
+                if (sourceFolder != "") sourceFolder += ";";
+                sourceFolder += item.Path;
+            }
+            Properties.Settings.Default.SourceFolders = sourceFolder;
+            Properties.Settings.Default.Mask = txtFileMask.Text;
+            Properties.Settings.Default.Save();
+        }
+        #endregion
+
+        #region Components
+
+        /// <summary>
+        /// Button Add source folder
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnAdd_Click(object sender, EventArgs e)
         {
             CommonOpenFileDialog dialog = new CommonOpenFileDialog();
             dialog.IsFolderPicker = true;
 
-
+            // ----- Show open dialog -----
             if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
             {
                 ffolder folder = new ffolder(System.IO.Path.GetFileName(dialog.FileName), dialog.FileName);
-                olvFolders.AddObject(folder);
+                olvFolders.AddObject(folder);           // add folder to OLV
             }
             dialog.Dispose();
         }
 
+        /// <summary>
+        /// Button Clear source folders
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnClear_Click(object sender, EventArgs e)
         {
             olvFolders.SetObjects(new List<ffolder>());
         }
 
+        /// <summary>
+        /// Button Remove selected source folders
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnDel_Click(object sender, EventArgs e)
         {
             olvFolders.RemoveObjects(olvFolders.CheckedObjects);
         }
 
+        /// <summary>
+        /// Button Add Destination folder
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnDestFolder_Click(object sender, EventArgs e)
         {
             CommonOpenFileDialog dialog = new CommonOpenFileDialog();
             dialog.IsFolderPicker = true;
 
+            // ----- Show open dialog -----
             if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
             {
                 txtDestFolder.Text = dialog.FileName;
@@ -91,10 +146,17 @@ namespace PhotoSort
             dialog.Dispose();
         }
 
+        /// <summary>
+        /// Button Start Sorting
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnStart_Click(object sender, EventArgs e)
         {
+            // ----- Start -----
             if ((string)btnStart.Tag != "run")
             {
+                // ----- Check if path exists -----
                 if (!System.IO.Directory.Exists(txtDestFolder.Text))
                 {
                     MessageBox.Show("Destination directory not exits!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -107,6 +169,7 @@ namespace PhotoSort
                     return;
                 }
 
+                // ----- Thread Settings -----
                 sortSettings set;
                 set.ClearFolder = chbClearDestFolder.Checked;
                 set.SetImgTime = chbSetImgDate.Checked;
@@ -114,21 +177,25 @@ namespace PhotoSort
                 set.DestFolder = txtDestFolder.Text;
                 set.FileMask = txtFileMask.Text;
 
+                // ----- Create thread -----
                 process = new AbortableBackgroundWorker();
                 process.DoWork += Sorting;
                 process.RunWorkerCompleted += WorkComplete;
                 process.ProgressChanged += ProgressChanged;
-                process.RunWorkerAsync(set);
+                process.RunWorkerAsync(set);                // start thread
                 process.WorkerSupportsCancellation = true;
                 process.WorkerReportsProgress = true;
 
+                // ----- Set button settings -----
                 btnStart.Text = "Stop";
                 btnStart.Tag = "run";
                 txtLog.Text = "";
                 progBar.Value = 0;
             }
+            // ----- Stop -----
             else
             {
+                // ----- Cancel Thread -----
                 process.CancelAsync();
                 process.Abort();
                 process.Dispose();
@@ -136,11 +203,37 @@ namespace PhotoSort
 
         }
 
+        /// <summary>
+        /// txtLog Changed
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void txtLog_TextChanged(object sender, EventArgs e)
+        {
+            // ----- Scroll down if changed -----
+            txtLog.SelectionStart = txtLog.Text.Length;
+            txtLog.ScrollToCaret();
+        }
+        
+        #endregion
+
+        #region Functions
+
+        /// <summary>
+        /// Format file name grom mask
+        /// </summary>
+        /// <param name="format">Mask</param>
+        /// <param name="index">File index</param>
+        /// <param name="fileName">File name</param>
+        /// <param name="folderName">Parrent folder name</param>
+        /// <param name="date">File date</param>
+        /// <returns>Formated filename</returns>
         private string Format(string format, int index, string fileName, string folderName, DateTime date)
         {
             string ext = System.IO.Path.GetExtension(fileName).ToLower();
             fileName = System.IO.Path.GetFileNameWithoutExtension(fileName);
 
+            // ----- Format Index -----
             int pos = format.IndexOf("%i");
             if (pos >= 0)
             {
@@ -154,9 +247,12 @@ namespace PhotoSort
                     format = format.Replace("%i", index.ToString());
                 }
             }
+
+            // ----- Format File names -----
             format = format.Replace("%N", fileName);
             format = format.Replace("%F", folderName);
 
+            // ----- Format Date ------
             format = format.Replace("%yyyy", date.Year.ToString("D4"));
             format = format.Replace("%yy", (date.Year-2000).ToString("D2"));
             format = format.Replace("%MM", date.Month.ToString("D2"));
@@ -164,6 +260,7 @@ namespace PhotoSort
             format = format.Replace("%dd", date.Day.ToString("D2"));
             format = format.Replace("%d", date.Day.ToString());
 
+            // ----- Format time -----
             format = format.Replace("%hh", date.Hour.ToString("D2"));
             format = format.Replace("%h", date.Hour.ToString());
             format = format.Replace("%mm", date.Minute.ToString("D2"));
@@ -174,15 +271,27 @@ namespace PhotoSort
             return format + ext;
         }
 
-        enum dateImgStat { None, Exif, File}
+        #region Exif
 
+        enum dateImgStat { None, Exif, File }
 
+        /// <summary>
+        /// Get Image Date
+        /// </summary>
+        /// <param name="path">Filename</param>
+        /// <returns>Date</returns>
         private DateTime GetImgDate(string path)
         {
             dateImgStat status;
             return GetImgDate(path, out status);
         }
 
+        /// <summary>
+        /// Get Image Date
+        /// </summary>
+        /// <param name="path">Filename</param>
+        /// <param name="status">Date status</param>
+        /// <returns>Date</returns>
         private DateTime GetImgDate(string path, out dateImgStat status)
         {
             DateTime date;
@@ -210,7 +319,8 @@ namespace PhotoSort
                         }
                     }
 
-                } catch { }
+                }
+                catch { }
 
                 status = dateImgStat.File;
                 return System.IO.File.GetCreationTime(path);
@@ -222,6 +332,13 @@ namespace PhotoSort
             }
         }
 
+        /// <summary>
+        /// Set Image date
+        /// </summary>
+        /// <param name="path">Source file path</param>
+        /// <param name="date">Date</param>
+        /// <param name="destPath">Destination file path</param>
+        /// <returns>Returns true if write ok</returns>
         private bool SetImgDate(string path, DateTime date, string destPath)
         {
             try
@@ -242,62 +359,34 @@ namespace PhotoSort
             {
                 return false;
             }
-            
+
             return true;
         }
 
-        private DateTime GetDate(byte[] value, int len)
-        {
-            System.Globalization.CultureInfo provider = System.Globalization.CultureInfo.InvariantCulture;
+        #endregion
 
-            string result = System.Text.Encoding.ASCII.GetString(value, 0, len - 1);
-            try
-            {
-                return DateTime.ParseExact(result, "yyyy:MM:dd HH:mm:ss", provider);
-            }
-            catch
-            {
-                return DateTime.MinValue;
-            }
-        }
+        #region Worker
 
-        private byte[] SetDate(DateTime date)
-        {
-            byte[] result = new byte[20];
-
-            System.Globalization.CultureInfo provider = System.Globalization.CultureInfo.InvariantCulture;
-            string strDate = date.ToString("yyyy:MM:dd HH:mm:ss");
-
-            Encoding.ASCII.GetBytes(strDate, 0, strDate.Length, result, 0);
-
-            return result;
-        }
-
-        private void frmMain_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            Properties.Settings.Default.DestFolder = txtDestFolder.Text;
-            string sourceFolder = "" ;
-            foreach(ffolder item in olvFolders.Objects)
-            {
-                if (sourceFolder != "") sourceFolder += ";";
-                sourceFolder += item.Path;
-            }
-            Properties.Settings.Default.SourceFolders = sourceFolder;
-            Properties.Settings.Default.Mask = txtFileMask.Text;
-            Properties.Settings.Default.Save();
-        }
-
+        /// <summary>
+        /// Log to txtLog
+        /// </summary>
+        /// <param name="text"></param>
+        /// <param name="color"></param>
         private void Log(string text, Color color)
         {
             Invoke(new Action(() =>
             {
-                txtLog.Select(txtLog.Text.Length, 0);
-                txtLog.SelectionColor = color;
-                txtLog.AppendText(text + Environment.NewLine);
+                txtLog.Select(txtLog.Text.Length, 0);           // Log to end
+                txtLog.SelectionColor = color;                  // Set color
+                txtLog.AppendText(text + Environment.NewLine);  // Log text
             }));
         }
 
-
+        /// <summary>
+        /// Sorting function
+        /// </summary>
+        /// <param name="sender">Worker</param>
+        /// <param name="e"></param>
         private void Sorting(object sender, DoWorkEventArgs e)
         {
             const int progSearch = 50;
@@ -311,46 +400,56 @@ namespace PhotoSort
             float progresFInc = 0, progresInc = 0;
 
 
-            // ----- Creating file list -----
-            Log("Creating file list...", Color.Black);
+            // ----- Check input folders -----
             int folderCount = olvFolders.Items.Count;
             if (folderCount == 0)
             {
                 Log("Warning: No input folders!", Color.Orange);
                 return;
             }
-            progresFInc = progSearch / folderCount;
+            progresFInc = progSearch / folderCount;         // Compute progressBar Increment
+
+            // ----- Creating file list -----
+            Log("Creating file list...", Color.Black);
             foreach (ffolder item in olvFolders.Objects)
             {
                 string procFile = "";
                 try
                 {
-                    // ----- Search folders -----
+                    // ----- Search files in folders -----
                     Log("Search in: " + item.Path, Color.Black);
                     string[] fileList = System.IO.Directory.GetFiles(item.Path);
-                    progresInc = progresFInc / fileList.Length;
+                    progresInc = progresFInc / fileList.Length;         // Compute progressBar Increment
                     foreach (string file in fileList)
                     {
-                        procFile = System.IO.Path.GetFileName(file);
-                        rewriteExif = false;
-                        dateImgStat status;
-                        date = GetImgDate(file, out status);
-                        if (status == dateImgStat.File) Log("Warning in " + procFile + ": No image time in EXIF -> Using File date", Color.Orange);
-
-                        if (date != DateTime.MinValue)
+                        procFile = System.IO.Path.GetFileName(file);    // get file
+                        string ext = System.IO.Path.GetExtension(file).ToLower();   // check Extension
+                        if (ext == ".jpg" || ext == ".jpeg" || ext == ".png" || ext == ".tiff")
                         {
-                            if (item.TimeShift != TimeSpan.Zero)
-                            {
-                                date += item.TimeShift;
-                                if (set.WriteShiftedTime) rewriteExif = true;
-                            }
-                        }
-                        else
-                            Log("Warning in " + procFile + ": No valid image time.", Color.Orange);
+                            rewriteExif = false;
+                            dateImgStat status;
+                            date = GetImgDate(file, out status);            // read file date
+                            if (status == dateImgStat.File) Log("Warning in " + procFile + ": No image time in EXIF -> Using File date", Color.Orange);
 
-                        PhotoList.Add(new PhotoFile(file, item.Name, item.TimeShift, date, rewriteExif));
+                            // ----- Process date -----
+                            if (date != DateTime.MinValue)
+                            {
+                                if (item.TimeShift != TimeSpan.Zero)
+                                {
+                                    date += item.TimeShift;
+                                    if (set.WriteShiftedTime) rewriteExif = true;
+                                }
+                            }
+                            else
+                                Log("Warning in " + procFile + ": No valid image time.", Color.Orange);
+
+                            // ----- Add File to list -----
+                            PhotoList.Add(new PhotoFile(file, item.Name, item.TimeShift, date, rewriteExif));
+                        }
+
+                        // ----- Show progress -----
                         progress += progresInc;
-                        worker.ReportProgress((int)progress);
+                        worker.ReportProgress((int)progress);           // Show progress
                     }
                 }
                 catch (Exception Err)
@@ -371,6 +470,9 @@ namespace PhotoSort
             Log("Sorting...", Color.Black);
             PhotoList = PhotoList.OrderBy(o => o.Date).ToList();
 
+            progress = progSearch;
+            worker.ReportProgress((int)progress);           // Show progress
+
             // ----- Delete destination folder -----
             if (set.ClearFolder)
             {
@@ -385,13 +487,18 @@ namespace PhotoSort
             {
                 try
                 {
-                    string destPath = set.DestFolder  + System.IO.Path.DirectorySeparatorChar + Format(set.FileMask, i + 1, System.IO.Path.GetFileName(PhotoList[i].Path), PhotoList[i].Folder, PhotoList[i].Date);
+                    // ----- Get Destination path -----
+                    string destPath = set.DestFolder + System.IO.Path.DirectorySeparatorChar + Format(set.FileMask, i + 1, System.IO.Path.GetFileName(PhotoList[i].Path), PhotoList[i].Folder, PhotoList[i].Date);
+                    
+                    // ----- If write exif -> set new date -----
                     if (PhotoList[i].RewriteExif)
                     {
                         SetImgDate(PhotoList[i].Path, PhotoList[i].Date, destPath);
                     }
                     else
                         System.IO.File.Copy(PhotoList[i].Path, destPath, true);
+
+                    // ----- If update file date -> update date from EXIF -----
                     if (set.SetImgTime)
                     {
                         if (PhotoList[i].Date != DateTime.MinValue)
@@ -403,10 +510,12 @@ namespace PhotoSort
                         {
                             Log("Warning in " + System.IO.Path.GetFileName(destPath) + ": File time from EXIF not saved (no time in EXIF).", Color.Orange);
                         }
-                        
+
                     }
+
+                    // ----- Show progress -----
                     progress += progresInc;
-                    worker.ReportProgress((int)progress);
+                    worker.ReportProgress((int)progress);           // Show progress
                 }
                 catch (Exception Err)
                 {
@@ -416,26 +525,27 @@ namespace PhotoSort
             worker.ReportProgress(100);
         }
 
+        /// <summary>
+        /// Sorting Complete
+        /// </summary>
+        /// <param name="sender">Worker</param>
+        /// <param name="e"></param>
         private void WorkComplete(object sender, RunWorkerCompletedEventArgs e)
         {
+            if (e.Cancelled)
+            {
+                Log("----- ABORTED -----", Color.Black);
+            }
+            else
+            {
+                Log("----- WORK DONE -----", Color.Black);
+            }
+
             Invoke(new Action(() =>
             {
-                txtLog.Select(txtLog.Text.Length, 0);
-                txtLog.SelectionColor = Color.Black;
-
-                if (e.Cancelled)
-                {
-                    Log("----- ABORTED -----", Color.Black);
-                }
-                else
-                {
-                    Log("----- WORK DONE -----", Color.Black);
-                }
-
                 btnStart.Tag = "";
                 btnStart.Text = "Start";
                 progBar.Value = 0;
-
             }));
 
             if (e.Cancelled)
@@ -444,19 +554,30 @@ namespace PhotoSort
                 MessageBox.Show("Work Complete");
         }
 
+        /// <summary>
+        /// Show Sorting Progress
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
             try
             {
-                progBar.Value = e.ProgressPercentage;
+                progBar.Value = e.ProgressPercentage;   // Show progres in progressbar
             }
             catch (Exception) { }
         }
 
-        private void txtLog_TextChanged(object sender, EventArgs e)
-        {
-            txtLog.SelectionStart = txtLog.Text.Length;
-            txtLog.ScrollToCaret();
-        }
+        #endregion
+
+        #endregion
+
+
+
+
+
+
+
+        
     }
 }
