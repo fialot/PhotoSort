@@ -99,6 +99,17 @@ namespace PhotoSort
             CommonOpenFileDialog dialog = new CommonOpenFileDialog();
             dialog.IsFolderPicker = true;
 
+            // ----- Set Init Dir -----
+            if (olvFolders.GetItemCount() > 0)
+            {
+                ffolder item = (ffolder)olvFolders.GetItem(olvFolders.GetItemCount() - 1).RowObject;
+                if (System.IO.Directory.Exists(item.Path))
+                {
+                    dialog.InitialDirectory = item.Path;
+                }
+            }
+            
+
             // ----- Show open dialog -----
             if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
             {
@@ -137,6 +148,12 @@ namespace PhotoSort
         {
             CommonOpenFileDialog dialog = new CommonOpenFileDialog();
             dialog.IsFolderPicker = true;
+
+            // ----- Set Init Dir -----
+            if (System.IO.Directory.Exists(txtDestFolder.Text))
+            {
+                dialog.InitialDirectory = txtDestFolder.Text;
+            }
 
             // ----- Show open dialog -----
             if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
@@ -569,16 +586,16 @@ namespace PhotoSort
             catch (Exception) { }
         }
 
+
+
+
+
+
+
+
         #endregion
 
         #endregion
 
-
-
-
-
-
-
-        
     }
 }
