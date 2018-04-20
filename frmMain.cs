@@ -8,11 +8,12 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+
 using Microsoft.WindowsAPICodePack.Dialogs;
 using myFunctions;
 using ExifLib;
-using ExifLibrary; 
-
+using ExifLibrary;
+using System.Resources;
 
 namespace PhotoSort
 {
@@ -26,6 +27,8 @@ namespace PhotoSort
         List<PhotoFile> PhotoList;
         AbortableBackgroundWorker process;
 
+        ResourceManager resources = new ResourceManager("PhotoSort.languages.lang", typeof(frmMain).Assembly);
+
         public struct sortSettings
         {
             public bool WriteShiftedTime;
@@ -36,6 +39,27 @@ namespace PhotoSort
         }
 
         #region Form
+
+        /// <summary>
+        /// Get Language String
+        /// </summary>
+        /// <param name="ID">ID of string</param>
+        /// <param name="def">Default value</param>
+        /// <returns></returns>
+        private string lng(string ID, string def)
+        {
+            string res;
+            try
+            {
+                res = (string)resources.GetObject(ID);
+                if (res == null) return def;
+            }
+            catch
+            {
+                return def;
+            }
+            return res;
+        }
 
         /// <summary>
         /// Form Load
@@ -191,13 +215,13 @@ namespace PhotoSort
                 // ----- Check if path exists -----
                 if (!System.IO.Directory.Exists(txtDestFolder.Text))
                 {
-                    MessageBox.Show("Destination directory not exits!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(lng("DestDirectoryNotExits", "Destination directory not exits!") , lng("Error", "Error"), MessageBoxButtons.OK, MessageBoxIcon.Error); 
                     return;
                 }
 
                 if (olvFolders.Items.Count == 0)
                 {
-                    MessageBox.Show("No input folders!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(lng("W_NoInputFolders", "No input folders!"), lng("Error", "Error"), MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return; 
                 }
 
@@ -219,7 +243,7 @@ namespace PhotoSort
                 process.WorkerReportsProgress = true;       // turn on reporting
 
                 // ----- Set button settings -----
-                btnStart.Text = "Stop";
+                btnStart.Text = lng("Stop", "Stop");
                 btnStart.Tag = "run";
                 txtLog.Text = "";
                 progBar.Value = 0;
@@ -438,13 +462,13 @@ namespace PhotoSort
             int folderCount = olvFolders.Items.Count;
             if (folderCount == 0)
             {
-                Log("Warning: No input folders!", Color.Orange);
+                Log(lng("Warning", "Warning") + ": " + lng("W_NoInputFolders", "No input folders!") , Color.Orange); 
                 return;
             }
             progresFInc = progSearch / folderCount;         // Compute progressBar Increment
 
             // ----- Creating file list -----
-            Log("Creating file list...", Color.Black);
+            Log(lng("CreatingFileList", "Creating file list") + "...", Color.Black);
             foreach (ffolder item in olvFolders.Objects)
             {
                 string procFile = "";
@@ -452,7 +476,7 @@ namespace PhotoSort
                 {
                     // ----- Search files in folders -----
                     string[] fileList = System.IO.Directory.GetFiles(item.Path);
-                    Log("Search in: " + item.Path + " (" + fileList.Length.ToString() + ")", Color.Black);
+                    Log(lng("SearchIn", "Search in:") + " " + item.Path + " (" + fileList.Length.ToString() + ")", Color.Black);
                     progresInc = progresFInc / fileList.Length;         // Compute progressBar Increment
                     foreach (string file in fileList)
                     {
@@ -463,7 +487,7 @@ namespace PhotoSort
                             rewriteExif = false;
                             dateImgStat status;
                             date = GetImgDate(file, out status);            // read file date
-                            if (status == dateImgStat.File) Log("Warning in " + procFile + ": No image time in EXIF -> Using File date", Color.Orange);
+                            if (status == dateImgStat.File) Log(lng("W_In", "Warning in") + " " + procFile + ": " + lng("W_NoImageTime", "No image time in EXIF -> Using File date."), Color.Orange);
 
                             // ----- Process date -----
                             if (date != DateTime.MinValue)
@@ -475,7 +499,7 @@ namespace PhotoSort
                                 }
                             }
                             else
-                                Log("Warning in " + procFile + ": No valid image time.", Color.Orange);
+                                Log(lng("W_In", "Warning in") + " " + procFile + ": " + lng("W_NoValidImageTime", "No valid image time."), Color.Orange);
 
                             // ----- Add File to list -----
                             PhotoList.Add(new PhotoFile(file, item.Name, item.TimeShift, date, rewriteExif));
@@ -488,7 +512,7 @@ namespace PhotoSort
                 }
                 catch (Exception Err)
                 {
-                    Log("Error in " + procFile + ": " + Err.Message, Color.Red);
+                    Log(lng("E_In", "Error in") + " " + procFile + ": " + Err.Message, Color.Red);
                 }
 
             }
@@ -496,12 +520,13 @@ namespace PhotoSort
             // ----- Check if found photos -----
             if (PhotoList.Count == 0)
             {
-                Log("Warning: No photos found!", Color.Orange);
+                Log(lng("W_NoPhotos", "Warning: No photos found!"), Color.Orange);
                 return;
             }
 
             // ----- Sorting -----
-            Log("Sorting... (" + PhotoList.Count.ToString() + ")", Color.Black);
+            
+            Log(lng("Sorting", "Sorting") + "... (" + PhotoList.Count.ToString() + ")", Color.Black);
             PhotoList = PhotoList.OrderBy(o => o.Date).ToList();
 
             progress = progSearch;
@@ -515,7 +540,7 @@ namespace PhotoSort
             }
 
             // ----- Copy -----
-            Log("Copying...", Color.Black);
+            Log(lng("Copying", "Copying") + "...", Color.Black);
             progresInc = (100.0f - progSearch) / PhotoList.Count;
             for (int i = 0; i < PhotoList.Count; i++)
             {
@@ -542,7 +567,7 @@ namespace PhotoSort
                         }
                         else
                         {
-                            Log("Warning in " + System.IO.Path.GetFileName(destPath) + ": File time from EXIF not saved (no time in EXIF).", Color.Orange);
+                            Log(lng("W_In", "Warning in") + " " + System.IO.Path.GetFileName(destPath) + ": " + lng("W_TimeNotSaved", "File time from EXIF not saved (no time in EXIF).") + "", Color.Orange);
                         }
 
                     }
@@ -553,10 +578,10 @@ namespace PhotoSort
                 }
                 catch (Exception Err)
                 {
-                    Log("Error in " + System.IO.Path.GetFileName(PhotoList[i].Path) + ": " + Err.Message, Color.Red);
+                    Log(lng("E_In", "Error in") + " " + System.IO.Path.GetFileName(PhotoList[i].Path) + ": " + Err.Message, Color.Red);
                 }
             }
-            Log("Copying done (" + PhotoList.Count.ToString() + " photos)", Color.Black);
+            Log(lng("CopyDone", "Copying done") + " (" + PhotoList.Count.ToString() + " " + lng("Photos", "photos") + ")", Color.Black);
             worker.ReportProgress(100);
         }
 
@@ -569,24 +594,24 @@ namespace PhotoSort
         {
             if (e.Cancelled)
             {
-                Log("----- ABORTED -----", Color.Black);
+                Log("----- " + lng("Aborted", "ABORTED") + " -----", Color.Black);
             }
             else
             {
-                Log("----- WORK DONE -----", Color.Black);
+                Log("----- " + lng("WorkDone", "WORK DONE") + " -----", Color.Black);
             }
 
             Invoke(new Action(() =>
             {
                 btnStart.Tag = "";
-                btnStart.Text = "Start";
+                btnStart.Text = lng("Start", "Start");
                 progBar.Value = 0;
             }));
 
             if (e.Cancelled)
-                MessageBox.Show("Work Aborted!");
+                MessageBox.Show(lng("WorkAborted", "Work Aborted!") , lng("Work", "Work"), MessageBoxButtons.OK, MessageBoxIcon.Warning);
             else
-                MessageBox.Show("Work Complete");
+                MessageBox.Show(lng("WorkComplete", "Work Complete."), lng("Work", "Work"), MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         /// <summary>
