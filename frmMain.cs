@@ -450,8 +450,8 @@ namespace PhotoSort
                 try
                 {
                     // ----- Search files in folders -----
-                    Log("Search in: " + item.Path, Color.Black);
                     string[] fileList = System.IO.Directory.GetFiles(item.Path);
+                    Log("Search in: " + item.Path + " (" + fileList.Length.ToString() + ")", Color.Black);
                     progresInc = progresFInc / fileList.Length;         // Compute progressBar Increment
                     foreach (string file in fileList)
                     {
@@ -500,7 +500,7 @@ namespace PhotoSort
             }
 
             // ----- Sorting -----
-            Log("Sorting...", Color.Black);
+            Log("Sorting... (" + PhotoList.Count.ToString() + ")", Color.Black);
             PhotoList = PhotoList.OrderBy(o => o.Date).ToList();
 
             progress = progSearch;
@@ -555,6 +555,7 @@ namespace PhotoSort
                     Log("Error in " + System.IO.Path.GetFileName(PhotoList[i].Path) + ": " + Err.Message, Color.Red);
                 }
             }
+            Log("Copying done (" + PhotoList.Count.ToString() + " photos)", Color.Black);
             worker.ReportProgress(100);
         }
 
