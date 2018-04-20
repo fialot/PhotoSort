@@ -58,5 +58,17 @@ namespace PhotoSort.Properties {
                 this["Mask"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string TimeShift {
+            get {
+                return ((string)(this["TimeShift"]));
+            }
+            set {
+                this["TimeShift"] = value;
+            }
+        }
     }
 }

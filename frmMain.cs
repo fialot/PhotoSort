@@ -56,12 +56,23 @@ namespace PhotoSort
             // ----- Load settings -----
             txtDestFolder.Text = Properties.Settings.Default.DestFolder;
             string[] SourceFolders = Properties.Settings.Default.SourceFolders.Split(new string[] { ";" }, StringSplitOptions.RemoveEmptyEntries);
+            string[] TimeShifts = Properties.Settings.Default.TimeShift.Split(new string[] { ";" }, StringSplitOptions.RemoveEmptyEntries);
             txtFileMask.Text = Properties.Settings.Default.Mask;
 
             // ----- Add source folders to ObjectListView -----
-            foreach (string item in SourceFolders)
+            for (int i = 0; i < SourceFolders.Length; i++)
             {
-                ffolder folder = new ffolder(System.IO.Path.GetFileName(item), item);
+                TimeSpan shift = TimeSpan.Zero;
+                if (SourceFolders.Length == TimeShifts.Length)
+                {
+                    try
+                    {
+                        shift = TimeSpan.Parse(TimeShifts[i]);
+                    }
+                    catch { }
+                }
+                
+                ffolder folder = new ffolder(System.IO.Path.GetFileName(SourceFolders[i]), SourceFolders[i], shift);
                 olvFolders.AddObject(folder);
             }
         }
@@ -76,12 +87,16 @@ namespace PhotoSort
             // ----- Save Settings -----
             Properties.Settings.Default.DestFolder = txtDestFolder.Text;
             string sourceFolder = "";
+            string timeShift = "";
             foreach (ffolder item in olvFolders.Objects)
             {
                 if (sourceFolder != "") sourceFolder += ";";
+                if (timeShift != "") timeShift += ";";
                 sourceFolder += item.Path;
+                timeShift += item.TimeShift.ToString();
             }
             Properties.Settings.Default.SourceFolders = sourceFolder;
+            Properties.Settings.Default.TimeShift = timeShift;
             Properties.Settings.Default.Mask = txtFileMask.Text;
             Properties.Settings.Default.Save();
         }

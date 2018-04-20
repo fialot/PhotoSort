@@ -11,5 +11,8 @@
     <Setting Name="Mask" Type="System.String" Scope="User">
       <Value Profile="(Default)">%i4 - %N (%F)</Value>
     </Setting>
+    <Setting Name="TimeShift" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
   </Settings>
 </SettingsFile>
