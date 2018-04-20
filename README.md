@@ -4,7 +4,7 @@ PhotoSort is a C# Windows form application. It is for merging photos from multip
 ![alt text](https://github.com/fialot/PhotoSort/blob/master/PhotoSort.png)
 
 
-Features:
+## Features:
 
 - Merging photos from multiple cameras to one folder
 
@@ -14,11 +14,48 @@ Features:
 
 - Optional set shifted time to EXIF tag
 
+### Used file mask symbols:
 
-In this project is used:
+**%i** - file index
+
+**%i4** - file index with fixes number length (for example: **%i4** -> 0001)
+
+**%N** - old file name
+
+**%F** - parrent folder name
+
+**%yyyy** - photo year (4 digits)
+
+**%yy** - photo year (last 2 digits)
+
+**%y** - photo year
+
+**%MM** - photo month (2 digits)
+
+**%M** - photo month
+
+**%dd** - photo day (2 digits)
+
+**%d** - photo day
+
+**%hh** - photo hour (2 digits)
+
+**%h** - photo hour
+
+**%mm** - photo minutes (2 digits)
+
+**%m** - photo minutes
+
+**%ss** - photo seconds (2 digits)
+
+**%s** - photo seconds
+
+### In this project is used:
 
 - **ExifLib** 1.7.0 by SimonMcKenzie (https://www.codeproject.com/Articles/36342/ExifLib-A-Fast-Exif-Data-Extractor-for-NET)
 
 - **ExifLibNet** 1.1.9 by oozcitak (https://github.com/oozcitak/exiflibrary)
 
 - **ObjectListView.Official** 2.9.1 (http://objectlistview.sourceforge.net/cs/index.html)
+
+
