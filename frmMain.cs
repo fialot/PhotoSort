@@ -286,7 +286,8 @@ namespace PhotoSort
 
             // ----- Format Date ------
             format = format.Replace("%yyyy", date.Year.ToString("D4"));
-            format = format.Replace("%yy", (date.Year-2000).ToString("D2"));
+            format = format.Replace("%yy", (date.Year - 2000).ToString("D2"));
+            format = format.Replace("%y", date.Year.ToString());
             format = format.Replace("%MM", date.Month.ToString("D2"));
             format = format.Replace("%M", date.Month.ToString());
             format = format.Replace("%dd", date.Day.ToString("D2"));
