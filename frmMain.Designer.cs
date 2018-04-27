@@ -43,6 +43,7 @@
             this.txtDestFolder = new System.Windows.Forms.TextBox();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.gbSettings = new System.Windows.Forms.GroupBox();
+            this.imgMask = new System.Windows.Forms.PictureBox();
             this.chbClearDestFolder = new System.Windows.Forms.CheckBox();
             this.txtFileMask = new System.Windows.Forms.TextBox();
             this.lblFileMask = new System.Windows.Forms.Label();
@@ -54,6 +55,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.olvFolders)).BeginInit();
             this.gbDestination.SuspendLayout();
             this.gbSettings.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.imgMask)).BeginInit();
             this.SuspendLayout();
             // 
             // gbSources
@@ -158,6 +160,7 @@
             // gbSettings
             // 
             resources.ApplyResources(this.gbSettings, "gbSettings");
+            this.gbSettings.Controls.Add(this.imgMask);
             this.gbSettings.Controls.Add(this.chbClearDestFolder);
             this.gbSettings.Controls.Add(this.txtFileMask);
             this.gbSettings.Controls.Add(this.lblFileMask);
@@ -166,6 +169,14 @@
             this.gbSettings.Controls.Add(this.chbWriteToExif);
             this.gbSettings.Name = "gbSettings";
             this.gbSettings.TabStop = false;
+            // 
+            // imgMask
+            // 
+            resources.ApplyResources(this.imgMask, "imgMask");
+            this.imgMask.Image = global::PhotoSort.Properties.Resources._1422621629_34225;
+            this.imgMask.Name = "imgMask";
+            this.imgMask.TabStop = false;
+            this.imgMask.Click += new System.EventHandler(this.imgMask_Click);
             // 
             // chbClearDestFolder
             // 
@@ -231,6 +242,7 @@
             this.gbDestination.PerformLayout();
             this.gbSettings.ResumeLayout(false);
             this.gbSettings.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.imgMask)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -258,6 +270,7 @@
         private System.Windows.Forms.RichTextBox txtLog;
         private System.Windows.Forms.CheckBox chbClearDestFolder;
         private System.Windows.Forms.ProgressBar progBar;
+        private System.Windows.Forms.PictureBox imgMask;
     }
 }
 

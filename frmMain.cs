@@ -82,6 +82,9 @@ namespace PhotoSort
             string[] SourceFolders = Properties.Settings.Default.SourceFolders.Split(new string[] { ";" }, StringSplitOptions.RemoveEmptyEntries);
             string[] TimeShifts = Properties.Settings.Default.TimeShift.Split(new string[] { ";" }, StringSplitOptions.RemoveEmptyEntries);
             txtFileMask.Text = Properties.Settings.Default.Mask;
+            chbWriteToExif.Checked = Properties.Settings.Default.WriteSTExif;
+            chbSetImgDate.Checked = Properties.Settings.Default.SetFileDate;
+            chbClearDestFolder.Checked = Properties.Settings.Default.ClearFolder;
 
             // ----- Add source folders to ObjectListView -----
             for (int i = 0; i < SourceFolders.Length; i++)
@@ -122,6 +125,9 @@ namespace PhotoSort
             Properties.Settings.Default.SourceFolders = sourceFolder;
             Properties.Settings.Default.TimeShift = timeShift;
             Properties.Settings.Default.Mask = txtFileMask.Text;
+            Properties.Settings.Default.WriteSTExif = chbWriteToExif.Checked;
+            Properties.Settings.Default.SetFileDate = chbSetImgDate.Checked;
+            Properties.Settings.Default.ClearFolder = chbClearDestFolder.Checked;
             Properties.Settings.Default.Save();
         }
         #endregion
@@ -548,6 +554,13 @@ namespace PhotoSort
                 {
                     // ----- Get Destination path -----
                     string destPath = set.DestFolder + System.IO.Path.DirectorySeparatorChar + Format(set.FileMask, i + 1, System.IO.Path.GetFileName(PhotoList[i].Path), PhotoList[i].Folder, PhotoList[i].Date);
+
+                    // ----- Create path if not exist ----
+                    string pathDir = System.IO.Path.GetDirectoryName(destPath);
+                    if (!System.IO.Directory.Exists(pathDir))
+                    {
+                        System.IO.Directory.CreateDirectory(pathDir);
+                    }
                     
                     // ----- If write exif -> set new date -----
                     if (PhotoList[i].RewriteExif)
@@ -639,5 +652,26 @@ namespace PhotoSort
 
         #endregion
 
+        private void imgMask_Click(object sender, EventArgs e)
+        {
+            string text = @"%i - file index
+%i4 - file index with fixes number length(for example: % i4-> 0001)
+%N - old file name
+%F - parrent folder name
+%yyyy - photo year(4 digits)
+%yy - photo year(last 2 digits)
+%y - photo year
+%MM - photo month(2 digits)
+%M - photo month
+%dd - photo day(2 digits)
+%d - photo day
+%hh - photo hour(2 digits)
+%h - photo hour
+%mm - photo minutes(2 digits)
+%m - photo minutes
+%ss - photo seconds(2 digits)
+%s - photo seconds";
+            MessageBox.Show(lng("MaskInfo", text), lng("UsedMaskSymbols", "Used Mask Symbols"), MessageBoxButtons.OK, MessageBoxIcon.None);
+        }
     }
 }

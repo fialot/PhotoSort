@@ -204,4 +204,26 @@
   <data name="W_TimeNotSaved" xml:space="preserve">
     <value>Čas souboru nebyl změněn (V EXIF není informace o čase).</value>
   </data>
+  <data name="MaskInfo" xml:space="preserve">
+    <value>%i         Index (pořadí) souboru
+%i4       Index (pořadí) souboru s pevnou délkou (například: %i4 -&gt; 0001)
+%N       Starý název souboru
+%F        Název složky, ze které soubor pochází
+%yyyy   Rok pořízení fotografie (4 číslice)
+%yy      Rok pořízení fotografie (poslední 2 číslice)
+%y        Rok pořízení fotografie
+%MM   Měsíc pořízení fotografie (2 číslice)
+%M       Měsíc pořízení fotografie
+%dd      Den pořízení fotografie (2 číslice)
+%d        Den pořízení fotografie
+%hh      Hodina pořízení fotografie (2 číslice)
+%h        Hodina pořízení fotografie
+%mm   Minuta pořízení fotografie (2 číslice)
+%m       Minuta pořízení fotografie
+%ss       Sekunda pořízení fotografie (2 číslice)
+%s         Sekunda pořízení</value>
+  </data>
+  <data name="UsedMaskSymbols" xml:space="preserve">
+    <value>Použité symboly masky</value>
+  </data>
 </root>

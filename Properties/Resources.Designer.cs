@@ -59,5 +59,15 @@ namespace PhotoSort.Properties {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Vyhledává lokalizovaný prostředek typu System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _1422621629_34225 {
+            get {
+                object obj = ResourceManager.GetObject("1422621629_34225", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
     }
 }

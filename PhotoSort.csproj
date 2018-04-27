@@ -228,6 +228,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="digital-camera-icon-psd.ico" />
+    <None Include="Resources\1422621629_34225.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -151,7 +151,7 @@
     <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;chbWriteToExif.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>6</value>
   </data>
   <data name="txtFileMask.Location" type="System.Drawing.Point, System.Drawing">
     <value>71, 68</value>
@@ -173,6 +173,9 @@
   </data>
   <data name="gbDestination.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
+  </data>
+  <data name="chbClearDestFolder.TabIndex" type="System.Int32, mscorlib">
+    <value>10</value>
   </data>
   <data name="&gt;&gt;progBar.Parent" xml:space="preserve">
     <value>$this</value>
@@ -207,17 +210,14 @@
   <data name="btnDel.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
   </data>
-  <data name="&gt;&gt;txtDestFolder.Parent" xml:space="preserve">
-    <value>gbDestination</value>
-  </data>
   <data name="olvFolders.Location" type="System.Drawing.Point, System.Drawing">
     <value>15, 48</value>
   </data>
   <data name="btnStart.Location" type="System.Drawing.Point, System.Drawing">
     <value>540, 87</value>
   </data>
-  <data name="chbSetImgDate.Location" type="System.Drawing.Point, System.Drawing">
-    <value>15, 42</value>
+  <data name="&gt;&gt;txtFileMask.Parent" xml:space="preserve">
+    <value>gbSettings</value>
   </data>
   <data name="&gt;&gt;gbDestination.Parent" xml:space="preserve">
     <value>$this</value>
@@ -225,23 +225,32 @@
   <data name="chbClearDestFolder.Size" type="System.Drawing.Size, System.Drawing">
     <value>192, 17</value>
   </data>
-  <data name="$this.Text" xml:space="preserve">
-    <value>PhotoSort</value>
+  <data name="progBar.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 470</value>
+  </data>
+  <data name="&gt;&gt;btnDel.Parent" xml:space="preserve">
+    <value>gbSources</value>
+  </data>
+  <data name="btnDel.Text" xml:space="preserve">
+    <value>Remove</value>
   </data>
   <data name="gbDestination.Size" type="System.Drawing.Size, System.Drawing">
     <value>621, 55</value>
   </data>
-  <data name="btnAdd.Size" type="System.Drawing.Size, System.Drawing">
-    <value>75, 23</value>
-  </data>
   <data name="&gt;&gt;btnStart.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>5</value>
   </data>
   <data name="&gt;&gt;colName.Type" xml:space="preserve">
     <value>BrightIdeasSoftware.OLVColumn, ObjectListView, Version=2.9.1.1072, Culture=neutral, PublicKeyToken=b1c5bf581481bcd4</value>
   </data>
-  <data name="&gt;&gt;btnDestFolder.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;colFullName.Name" xml:space="preserve">
+    <value>colFullName</value>
+  </data>
+  <data name="&gt;&gt;txtLog.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="btnStart.Size" type="System.Drawing.Size, System.Drawing">
+    <value>75, 23</value>
   </data>
   <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
     <value>6, 13</value>
@@ -3671,11 +3680,8 @@
   <data name="btnAdd.Text" xml:space="preserve">
     <value>Add</value>
   </data>
-  <data name="&gt;&gt;chbSetImgDate.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="progBar.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 470</value>
+  <data name="chbWriteToExif.Text" xml:space="preserve">
+    <value>Write shifted time to EXIF</value>
   </data>
   <data name="btnAdd.Location" type="System.Drawing.Point, System.Drawing">
     <value>15, 19</value>
@@ -3685,9 +3691,6 @@
   </data>
   <data name="progBar.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Left, Right</value>
-  </data>
-  <data name="&gt;&gt;txtFileMask.Parent" xml:space="preserve">
-    <value>gbSettings</value>
   </data>
   <data name="&gt;&gt;gbSettings.Name" xml:space="preserve">
     <value>gbSettings</value>
@@ -3704,6 +3707,9 @@
   <data name="&gt;&gt;btnAdd.Name" xml:space="preserve">
     <value>btnAdd</value>
   </data>
+  <data name="btnAdd.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
   <data name="&gt;&gt;btnDel.Type" xml:space="preserve">
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
@@ -3716,23 +3722,29 @@
   <data name="btnDestFolder.Text" xml:space="preserve">
     <value>...</value>
   </data>
-  <data name="&gt;&gt;colFullName.Name" xml:space="preserve">
-    <value>colFullName</value>
+  <data name="chbSetImgDate.Location" type="System.Drawing.Point, System.Drawing">
+    <value>15, 42</value>
+  </data>
+  <data name="chbSetImgDate.Text" xml:space="preserve">
+    <value>Set file date from EXIF</value>
   </data>
   <data name="&gt;&gt;txtFileMask.Name" xml:space="preserve">
     <value>txtFileMask</value>
   </data>
+  <data name="&gt;&gt;gbSources.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="&gt;&gt;colFullName.Type" xml:space="preserve">
+    <value>BrightIdeasSoftware.OLVColumn, ObjectListView, Version=2.9.1.1072, Culture=neutral, PublicKeyToken=b1c5bf581481bcd4</value>
+  </data>
   <data name="&gt;&gt;btnStart.Type" xml:space="preserve">
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;$this.Name" xml:space="preserve">
-    <value>frmMain</value>
+  <data name="&gt;&gt;imgMask.Type" xml:space="preserve">
+    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;btnDestFolder.Parent" xml:space="preserve">
     <value>gbDestination</value>
-  </data>
-  <data name="&gt;&gt;chbClearDestFolder.ZOrder" xml:space="preserve">
-    <value>0</value>
   </data>
   <data name="txtLog.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Bottom, Left, Right</value>
@@ -3743,11 +3755,11 @@
   <data name="gbDestination.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Left, Right</value>
   </data>
-  <data name="chbSetImgDate.Text" xml:space="preserve">
-    <value>Set file date from EXIF</value>
-  </data>
-  <data name="&gt;&gt;gbSources.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;chbSetImgDate.ZOrder" xml:space="preserve">
     <value>4</value>
+  </data>
+  <data name="&gt;&gt;chbClearDestFolder.ZOrder" xml:space="preserve">
+    <value>1</value>
   </data>
   <data name="lblFileMask.TabIndex" type="System.Int32, mscorlib">
     <value>12</value>
@@ -3776,6 +3788,12 @@
   <data name="gbSettings.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Left, Right</value>
   </data>
+  <data name="&gt;&gt;imgMask.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="gbSources.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 12</value>
+  </data>
   <data name="&gt;&gt;gbSettings.Type" xml:space="preserve">
     <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
@@ -3793,6 +3811,9 @@
   </data>
   <data name="&gt;&gt;gbSources.Name" xml:space="preserve">
     <value>gbSources</value>
+  </data>
+  <data name="&gt;&gt;txtLog.Parent" xml:space="preserve">
+    <value>$this</value>
   </data>
   <data name="&gt;&gt;txtLog.Name" xml:space="preserve">
     <value>txtLog</value>
@@ -3812,8 +3833,8 @@
   <data name="&gt;&gt;txtDestFolder.Name" xml:space="preserve">
     <value>txtDestFolder</value>
   </data>
-  <data name="gbSources.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 12</value>
+  <data name="&gt;&gt;olvFolders.Type" xml:space="preserve">
+    <value>BrightIdeasSoftware.ObjectListView, ObjectListView, Version=2.9.1.1072, Culture=neutral, PublicKeyToken=b1c5bf581481bcd4</value>
   </data>
   <data name="chbClearDestFolder.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -3821,11 +3842,11 @@
   <data name="btnDestFolder.Size" type="System.Drawing.Size, System.Drawing">
     <value>32, 23</value>
   </data>
+  <data name="$this.Text" xml:space="preserve">
+    <value>PhotoSort</value>
+  </data>
   <data name="progBar.TabIndex" type="System.Int32, mscorlib">
     <value>16</value>
-  </data>
-  <data name="&gt;&gt;olvFolders.Type" xml:space="preserve">
-    <value>BrightIdeasSoftware.ObjectListView, ObjectListView, Version=2.9.1.1072, Culture=neutral, PublicKeyToken=b1c5bf581481bcd4</value>
   </data>
   <data name="&gt;&gt;chbSetImgDate.Parent" xml:space="preserve">
     <value>gbSettings</value>
@@ -3863,11 +3884,14 @@
   <data name="&gt;&gt;chbWriteToExif.Name" xml:space="preserve">
     <value>chbWriteToExif</value>
   </data>
+  <data name="&gt;&gt;imgMask.Name" xml:space="preserve">
+    <value>imgMask</value>
+  </data>
   <data name="olvFolders.Size" type="System.Drawing.Size, System.Drawing">
     <value>600, 115</value>
   </data>
-  <data name="&gt;&gt;btnDel.Parent" xml:space="preserve">
-    <value>gbSources</value>
+  <data name="&gt;&gt;txtDestFolder.Parent" xml:space="preserve">
+    <value>gbDestination</value>
   </data>
   <data name="&gt;&gt;progBar.ZOrder" xml:space="preserve">
     <value>0</value>
@@ -3880,9 +3904,6 @@
   </data>
   <data name="&gt;&gt;gbDestination.ZOrder" xml:space="preserve">
     <value>3</value>
-  </data>
-  <data name="btnDel.Text" xml:space="preserve">
-    <value>Remove</value>
   </data>
   <data name="btnDel.Location" type="System.Drawing.Point, System.Drawing">
     <value>96, 19</value>
@@ -3905,14 +3926,11 @@
   <data name="colFullName.Width" type="System.Int32, mscorlib">
     <value>407</value>
   </data>
-  <data name="&gt;&gt;chbSetImgDate.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="&gt;&gt;chbClearDestFolder.Parent" xml:space="preserve">
-    <value>gbSettings</value>
-  </data>
   <data name="&gt;&gt;gbDestination.Type" xml:space="preserve">
     <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;imgMask.Parent" xml:space="preserve">
+    <value>gbSettings</value>
   </data>
   <data name="btnStart.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Right</value>
@@ -3922,6 +3940,9 @@
   </data>
   <data name="&gt;&gt;chbClearDestFolder.Name" xml:space="preserve">
     <value>chbClearDestFolder</value>
+  </data>
+  <data name="imgMask.TabIndex" type="System.Int32, mscorlib">
+    <value>15</value>
   </data>
   <data name="&gt;&gt;lblFileMask.Parent" xml:space="preserve">
     <value>gbSettings</value>
@@ -3941,7 +3962,7 @@
   <data name="lblFileMask.Text" xml:space="preserve">
     <value>Files mask:</value>
   </data>
-  <data name="btnStart.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="btnAdd.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 23</value>
   </data>
   <data name="txtDestFolder.Size" type="System.Drawing.Size, System.Drawing">
@@ -3951,16 +3972,16 @@
     <value>System.Windows.Forms.RichTextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;txtFileMask.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>2</value>
   </data>
-  <data name="&gt;&gt;colFullName.Type" xml:space="preserve">
-    <value>BrightIdeasSoftware.OLVColumn, ObjectListView, Version=2.9.1.1072, Culture=neutral, PublicKeyToken=b1c5bf581481bcd4</value>
+  <data name="gbSources.Text" xml:space="preserve">
+    <value>Source folders</value>
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
     <value>645, 489</value>
   </data>
-  <data name="&gt;&gt;txtLog.Parent" xml:space="preserve">
-    <value>$this</value>
+  <data name="&gt;&gt;btnStart.Name" xml:space="preserve">
+    <value>btnStart</value>
   </data>
   <data name="btnDestFolder.Location" type="System.Drawing.Point, System.Drawing">
     <value>583, 17</value>
@@ -3968,20 +3989,17 @@
   <data name="&gt;&gt;btnDestFolder.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="chbWriteToExif.Text" xml:space="preserve">
-    <value>Write shifted time to EXIF</value>
-  </data>
   <data name="btnClear.Location" type="System.Drawing.Point, System.Drawing">
     <value>177, 19</value>
   </data>
   <data name="&gt;&gt;lblFileMask.Name" xml:space="preserve">
     <value>lblFileMask</value>
   </data>
+  <data name="imgMask.Location" type="System.Drawing.Point, System.Drawing">
+    <value>249, 62</value>
+  </data>
   <data name="colName.Text" xml:space="preserve">
     <value>Folder</value>
-  </data>
-  <data name="gbSources.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
   </data>
   <data name="&gt;&gt;chbSetImgDate.Name" xml:space="preserve">
     <value>chbSetImgDate</value>
@@ -3995,11 +4013,11 @@
   <data name="&gt;&gt;txtFileMask.Type" xml:space="preserve">
     <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;btnStart.Name" xml:space="preserve">
-    <value>btnStart</value>
+  <data name="&gt;&gt;chbClearDestFolder.Parent" xml:space="preserve">
+    <value>gbSettings</value>
   </data>
-  <data name="chbClearDestFolder.TabIndex" type="System.Int32, mscorlib">
-    <value>10</value>
+  <data name="&gt;&gt;chbSetImgDate.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="btnStart.Text" xml:space="preserve">
     <value>Start</value>
@@ -4007,20 +4025,26 @@
   <data name="&gt;&gt;olvFolders.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
-  <data name="btnAdd.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
+  <data name="gbSources.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
   </data>
   <data name="chbWriteToExif.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
+  <data name="&gt;&gt;$this.Name" xml:space="preserve">
+    <value>frmMain</value>
+  </data>
   <data name="&gt;&gt;btnClear.Parent" xml:space="preserve">
     <value>gbSources</value>
   </data>
-  <data name="&gt;&gt;txtLog.ZOrder" xml:space="preserve">
-    <value>1</value>
+  <data name="&gt;&gt;btnDestFolder.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;gbDestination.Name" xml:space="preserve">
     <value>gbDestination</value>
+  </data>
+  <data name="imgMask.Size" type="System.Drawing.Size, System.Drawing">
+    <value>27, 26</value>
   </data>
   <data name="&gt;&gt;folderBrowserDialog1.Type" xml:space="preserve">
     <value>System.Windows.Forms.FolderBrowserDialog, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -4029,11 +4053,11 @@
     <value>btnClear</value>
   </data>
   <data name="&gt;&gt;lblFileMask.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>3</value>
   </data>
-  <data name="gbSources.Text" xml:space="preserve">
-    <value>Source folders</value>
-  </data>
+  <metadata name="$this.Language" type="System.Globalization.CultureInfo, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>cs</value>
+  </metadata>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>

@@ -70,5 +70,41 @@ namespace PhotoSort.Properties {
                 this["TimeShift"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool WriteSTExif {
+            get {
+                return ((bool)(this["WriteSTExif"]));
+            }
+            set {
+                this["WriteSTExif"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool SetFileDate {
+            get {
+                return ((bool)(this["SetFileDate"]));
+            }
+            set {
+                this["SetFileDate"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool ClearFolder {
+            get {
+                return ((bool)(this["ClearFolder"]));
+            }
+            set {
+                this["ClearFolder"] = value;
+            }
+        }
     }
 }
