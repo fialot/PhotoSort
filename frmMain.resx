@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="&gt;&gt;cbFileMask.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
   <data name="&gt;&gt;txtDestFolder.Type" xml:space="preserve">
     <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
@@ -153,14 +156,8 @@
   <data name="&gt;&gt;chbWriteToExif.ZOrder" xml:space="preserve">
     <value>6</value>
   </data>
-  <data name="txtFileMask.Location" type="System.Drawing.Point, System.Drawing">
-    <value>71, 68</value>
-  </data>
-  <data name="txtFileMask.Text" xml:space="preserve">
-    <value>%i4 - %N (%F)</value>
-  </data>
-  <data name="txtFileMask.TabIndex" type="System.Int32, mscorlib">
-    <value>13</value>
+  <data name="cbFileMask.Items1" xml:space="preserve">
+    <value>%yyyy-%MM-%dd %N</value>
   </data>
   <data name="&gt;&gt;btnAdd.Type" xml:space="preserve">
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -192,6 +189,9 @@
   <data name="&gt;&gt;chbClearDestFolder.Type" xml:space="preserve">
     <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="&gt;&gt;cbFileMask.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="&gt;&gt;progBar.Type" xml:space="preserve">
     <value>System.Windows.Forms.ProgressBar, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
@@ -216,8 +216,8 @@
   <data name="btnStart.Location" type="System.Drawing.Point, System.Drawing">
     <value>540, 87</value>
   </data>
-  <data name="&gt;&gt;txtFileMask.Parent" xml:space="preserve">
-    <value>gbSettings</value>
+  <data name="chbSetImgDate.Location" type="System.Drawing.Point, System.Drawing">
+    <value>15, 42</value>
   </data>
   <data name="&gt;&gt;gbDestination.Parent" xml:space="preserve">
     <value>$this</value>
@@ -227,9 +227,6 @@
   </data>
   <data name="progBar.Location" type="System.Drawing.Point, System.Drawing">
     <value>12, 470</value>
-  </data>
-  <data name="&gt;&gt;btnDel.Parent" xml:space="preserve">
-    <value>gbSources</value>
   </data>
   <data name="btnDel.Text" xml:space="preserve">
     <value>Remove</value>
@@ -245,6 +242,9 @@
   </data>
   <data name="&gt;&gt;colFullName.Name" xml:space="preserve">
     <value>colFullName</value>
+  </data>
+  <data name="&gt;&gt;cbFileMask.Parent" xml:space="preserve">
+    <value>gbSettings</value>
   </data>
   <data name="&gt;&gt;txtLog.ZOrder" xml:space="preserve">
     <value>1</value>
@@ -3674,8 +3674,14 @@
         /////////////////////////////w==
 </value>
   </data>
+  <data name="&gt;&gt;cbFileMask.Name" xml:space="preserve">
+    <value>cbFileMask</value>
+  </data>
   <data name="&gt;&gt;btnClear.Type" xml:space="preserve">
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="cbFileMask.Items" xml:space="preserve">
+    <value>%i4 - %N (%F)</value>
   </data>
   <data name="btnAdd.Text" xml:space="preserve">
     <value>Add</value>
@@ -3694,6 +3700,9 @@
   </data>
   <data name="&gt;&gt;gbSettings.Name" xml:space="preserve">
     <value>gbSettings</value>
+  </data>
+  <data name="&gt;&gt;folderBrowserDialog1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.FolderBrowserDialog, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="chbClearDestFolder.Location" type="System.Drawing.Point, System.Drawing">
     <value>188, 19</value>
@@ -3719,17 +3728,17 @@
   <data name="chbWriteToExif.Size" type="System.Drawing.Size, System.Drawing">
     <value>145, 17</value>
   </data>
+  <data name="cbFileMask.Location" type="System.Drawing.Point, System.Drawing">
+    <value>96, 68</value>
+  </data>
   <data name="btnDestFolder.Text" xml:space="preserve">
     <value>...</value>
   </data>
-  <data name="chbSetImgDate.Location" type="System.Drawing.Point, System.Drawing">
-    <value>15, 42</value>
+  <data name="cbFileMask.Text" xml:space="preserve">
+    <value>%i4 - %N (%F)</value>
   </data>
   <data name="chbSetImgDate.Text" xml:space="preserve">
     <value>Set file date from EXIF</value>
-  </data>
-  <data name="&gt;&gt;txtFileMask.Name" xml:space="preserve">
-    <value>txtFileMask</value>
   </data>
   <data name="&gt;&gt;gbSources.ZOrder" xml:space="preserve">
     <value>4</value>
@@ -3759,7 +3768,7 @@
     <value>4</value>
   </data>
   <data name="&gt;&gt;chbClearDestFolder.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>2</value>
   </data>
   <data name="lblFileMask.TabIndex" type="System.Int32, mscorlib">
     <value>12</value>
@@ -3782,6 +3791,9 @@
   <data name="gbSettings.TabIndex" type="System.Int32, mscorlib">
     <value>8</value>
   </data>
+  <data name="cbFileMask.TabIndex" type="System.Int32, mscorlib">
+    <value>16</value>
+  </data>
   <data name="lblFileMask.Location" type="System.Drawing.Point, System.Drawing">
     <value>12, 71</value>
   </data>
@@ -3789,7 +3801,7 @@
     <value>Top, Left, Right</value>
   </data>
   <data name="&gt;&gt;imgMask.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>1</value>
   </data>
   <data name="gbSources.Location" type="System.Drawing.Point, System.Drawing">
     <value>12, 12</value>
@@ -3853,9 +3865,6 @@
   </data>
   <data name="gbDestination.Text" xml:space="preserve">
     <value>Destination Folder</value>
-  </data>
-  <data name="txtFileMask.Size" type="System.Drawing.Size, System.Drawing">
-    <value>172, 20</value>
   </data>
   <data name="txtDestFolder.Location" type="System.Drawing.Point, System.Drawing">
     <value>15, 19</value>
@@ -3971,9 +3980,6 @@
   <data name="&gt;&gt;txtLog.Type" xml:space="preserve">
     <value>System.Windows.Forms.RichTextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;txtFileMask.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
   <data name="gbSources.Text" xml:space="preserve">
     <value>Source folders</value>
   </data>
@@ -4010,8 +4016,8 @@
   <data name="&gt;&gt;btnClear.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="&gt;&gt;txtFileMask.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;btnDel.Parent" xml:space="preserve">
+    <value>gbSources</value>
   </data>
   <data name="&gt;&gt;chbClearDestFolder.Parent" xml:space="preserve">
     <value>gbSettings</value>
@@ -4046,8 +4052,8 @@
   <data name="imgMask.Size" type="System.Drawing.Size, System.Drawing">
     <value>27, 26</value>
   </data>
-  <data name="&gt;&gt;folderBrowserDialog1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.FolderBrowserDialog, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="cbFileMask.Size" type="System.Drawing.Size, System.Drawing">
+    <value>147, 21</value>
   </data>
   <data name="&gt;&gt;btnClear.Name" xml:space="preserve">
     <value>btnClear</value>
@@ -4055,9 +4061,6 @@
   <data name="&gt;&gt;lblFileMask.ZOrder" xml:space="preserve">
     <value>3</value>
   </data>
-  <metadata name="$this.Language" type="System.Globalization.CultureInfo, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>cs</value>
-  </metadata>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>

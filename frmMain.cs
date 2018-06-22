@@ -81,7 +81,7 @@ namespace PhotoSort
             txtDestFolder.Text = Properties.Settings.Default.DestFolder;
             string[] SourceFolders = Properties.Settings.Default.SourceFolders.Split(new string[] { ";" }, StringSplitOptions.RemoveEmptyEntries);
             string[] TimeShifts = Properties.Settings.Default.TimeShift.Split(new string[] { ";" }, StringSplitOptions.RemoveEmptyEntries);
-            txtFileMask.Text = Properties.Settings.Default.Mask;
+            cbFileMask.Text = Properties.Settings.Default.Mask;
             chbWriteToExif.Checked = Properties.Settings.Default.WriteSTExif;
             chbSetImgDate.Checked = Properties.Settings.Default.SetFileDate;
             chbClearDestFolder.Checked = Properties.Settings.Default.ClearFolder;
@@ -124,7 +124,7 @@ namespace PhotoSort
             }
             Properties.Settings.Default.SourceFolders = sourceFolder;
             Properties.Settings.Default.TimeShift = timeShift;
-            Properties.Settings.Default.Mask = txtFileMask.Text;
+            Properties.Settings.Default.Mask = cbFileMask.Text;
             Properties.Settings.Default.WriteSTExif = chbWriteToExif.Checked;
             Properties.Settings.Default.SetFileDate = chbSetImgDate.Checked;
             Properties.Settings.Default.ClearFolder = chbClearDestFolder.Checked;
@@ -237,7 +237,7 @@ namespace PhotoSort
                 set.SetImgTime = chbSetImgDate.Checked;
                 set.WriteShiftedTime = chbWriteToExif.Checked;
                 set.DestFolder = txtDestFolder.Text;
-                set.FileMask = txtFileMask.Text;
+                set.FileMask = cbFileMask.Text;
 
                 // ----- Create thread -----
                 process = new AbortableBackgroundWorker();

@@ -43,9 +43,9 @@
             this.txtDestFolder = new System.Windows.Forms.TextBox();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.gbSettings = new System.Windows.Forms.GroupBox();
+            this.cbFileMask = new System.Windows.Forms.ComboBox();
             this.imgMask = new System.Windows.Forms.PictureBox();
             this.chbClearDestFolder = new System.Windows.Forms.CheckBox();
-            this.txtFileMask = new System.Windows.Forms.TextBox();
             this.lblFileMask = new System.Windows.Forms.Label();
             this.chbSetImgDate = new System.Windows.Forms.CheckBox();
             this.chbWriteToExif = new System.Windows.Forms.CheckBox();
@@ -160,15 +160,24 @@
             // gbSettings
             // 
             resources.ApplyResources(this.gbSettings, "gbSettings");
+            this.gbSettings.Controls.Add(this.cbFileMask);
             this.gbSettings.Controls.Add(this.imgMask);
             this.gbSettings.Controls.Add(this.chbClearDestFolder);
-            this.gbSettings.Controls.Add(this.txtFileMask);
             this.gbSettings.Controls.Add(this.lblFileMask);
             this.gbSettings.Controls.Add(this.chbSetImgDate);
             this.gbSettings.Controls.Add(this.btnStart);
             this.gbSettings.Controls.Add(this.chbWriteToExif);
             this.gbSettings.Name = "gbSettings";
             this.gbSettings.TabStop = false;
+            // 
+            // cbFileMask
+            // 
+            resources.ApplyResources(this.cbFileMask, "cbFileMask");
+            this.cbFileMask.FormattingEnabled = true;
+            this.cbFileMask.Items.AddRange(new object[] {
+            resources.GetString("cbFileMask.Items"),
+            resources.GetString("cbFileMask.Items1")});
+            this.cbFileMask.Name = "cbFileMask";
             // 
             // imgMask
             // 
@@ -185,11 +194,6 @@
             this.chbClearDestFolder.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chbClearDestFolder.Name = "chbClearDestFolder";
             this.chbClearDestFolder.UseVisualStyleBackColor = true;
-            // 
-            // txtFileMask
-            // 
-            resources.ApplyResources(this.txtFileMask, "txtFileMask");
-            this.txtFileMask.Name = "txtFileMask";
             // 
             // lblFileMask
             // 
@@ -264,13 +268,13 @@
         private System.Windows.Forms.GroupBox gbSettings;
         private System.Windows.Forms.CheckBox chbWriteToExif;
         private System.Windows.Forms.CheckBox chbSetImgDate;
-        private System.Windows.Forms.TextBox txtFileMask;
         private System.Windows.Forms.Label lblFileMask;
         private System.Windows.Forms.Button btnClear;
         private System.Windows.Forms.RichTextBox txtLog;
         private System.Windows.Forms.CheckBox chbClearDestFolder;
         private System.Windows.Forms.ProgressBar progBar;
         private System.Windows.Forms.PictureBox imgMask;
+        private System.Windows.Forms.ComboBox cbFileMask;
     }
 }
 

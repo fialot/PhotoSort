@@ -154,16 +154,13 @@
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="imgMask.Location" type="System.Drawing.Point, System.Drawing">
-    <value>279, 62</value>
+    <value>249, 63</value>
   </data>
   <data name="chbClearDestFolder.Size" type="System.Drawing.Size, System.Drawing">
     <value>271, 17</value>
   </data>
   <data name="chbClearDestFolder.Text" xml:space="preserve">
     <value>Před zahájením kopírování vymazat cílovou složku</value>
-  </data>
-  <data name="txtFileMask.Location" type="System.Drawing.Point, System.Drawing">
-    <value>101, 68</value>
   </data>
   <data name="lblFileMask.Size" type="System.Drawing.Size, System.Drawing">
     <value>83, 13</value>
