@@ -58,5 +58,5 @@ PhotoSort is a C# Windows form application. It is for merging photos (& movies) 
 
 - **ObjectListView.Official** 2.9.1 (http://objectlistview.sourceforge.net/cs/index.html)
 
-- **MediaInfo.Wrapper** 17.12.0 (https://github.com/yartat/MP-MediaInfo)
+- **MediaInfo.Wrapper** 17.12.0 by yartat (https://github.com/yartat/MP-MediaInfo)
 
