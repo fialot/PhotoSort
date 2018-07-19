@@ -12,6 +12,8 @@
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <TargetFrameworkProfile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -43,6 +45,12 @@
     </Reference>
     <Reference Include="ExifLibrary, Version=1.1.9.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>packages\ExifLibNet.1.1.9\lib\netstandard1.3\ExifLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="JetBrains.Annotations, Version=11.1.0.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
+      <HintPath>packages\JetBrains.Annotations.11.1.0\lib\net20\JetBrains.Annotations.dll</HintPath>
+    </Reference>
+    <Reference Include="MediaInfo.Wrapper, Version=17.12.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\MediaInfo.Wrapper.17.12.0\lib\net40\MediaInfo.Wrapper.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Win32.Primitives">
       <HintPath>packages\Microsoft.Win32.Primitives.4.3.0\lib\net46\Microsoft.Win32.Primitives.dll</HintPath>
@@ -231,4 +239,11 @@
     <None Include="Resources\1422621629_34225.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="packages\MediaInfo.Native.17.12\build\MediaInfo.Native.targets" Condition="Exists('packages\MediaInfo.Native.17.12\build\MediaInfo.Native.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>Tenhle projekt odkazuje na balíčky NuGet, které nejsou v tomhle počítači k dispozici. Když je chcete stáhnout, použijte funkci obnovení balíčků NuGet.  Další informace najdete na adrese http://go.microsoft.com/fwlink/?LinkID=322105. Chybějícím souborem je soubor {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('packages\MediaInfo.Native.17.12\build\MediaInfo.Native.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\MediaInfo.Native.17.12\build\MediaInfo.Native.targets'))" />
+  </Target>
 </Project>

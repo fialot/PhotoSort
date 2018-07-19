@@ -169,10 +169,10 @@
     <value>Maska souborů:</value>
   </data>
   <data name="chbSetImgDate.Size" type="System.Drawing.Size, System.Drawing">
-    <value>181, 17</value>
+    <value>233, 17</value>
   </data>
   <data name="chbSetImgDate.Text" xml:space="preserve">
-    <value>Nastavit čas souboru podle EXIF</value>
+    <value>Nastavit čas souboru podle EXIF/MediaInfo</value>
   </data>
   <data name="chbWriteToExif.Size" type="System.Drawing.Size, System.Drawing">
     <value>166, 17</value>

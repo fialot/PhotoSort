@@ -14,6 +14,7 @@ using myFunctions;
 using ExifLib;
 using ExifLibrary;
 using System.Resources;
+using MediaInfo;
 
 namespace PhotoSort
 {
@@ -349,6 +350,44 @@ namespace PhotoSort
             return GetImgDate(path, out status);
         }
 
+
+        /// <summary>
+        /// Get Movie Date
+        /// </summary>
+        /// <param name="path">Filename</param>
+        /// <param name="status">Date status</param>
+        /// <returns>Date</returns>
+        private DateTime GetMovDate(string path, out dateImgStat status)
+        {
+            status = dateImgStat.None;
+            try
+            {
+                try
+                {
+                    MediaInfoWrapper wrap = new MediaInfoWrapper(path);
+                    if (wrap.Tags != null && wrap.Tags.EncodedDate != null)
+                    {
+                        status = dateImgStat.Exif;
+                        return wrap.Tags.EncodedDate ?? DateTime.Now;
+                    }
+                    else
+                    {
+                        status = dateImgStat.File;
+                        return System.IO.File.GetCreationTime(path);
+                    }
+                }
+                catch { }
+
+                status = dateImgStat.File;
+                return System.IO.File.GetCreationTime(path);
+            }
+            catch
+            {
+                status = dateImgStat.None;
+                return DateTime.MinValue;
+            }
+        }
+
         /// <summary>
         /// Get Image Date
         /// </summary>
@@ -502,6 +541,28 @@ namespace PhotoSort
                                 {
                                     date += item.TimeShift;
                                     if (set.WriteShiftedTime) rewriteExif = true;
+                                }
+                            }
+                            else
+                                Log(lng("W_In", "Warning in") + " " + procFile + ": " + lng("W_NoValidImageTime", "No valid image time."), Color.Orange);
+
+                            // ----- Add File to list -----
+                            PhotoList.Add(new PhotoFile(file, item.Name, item.TimeShift, date, rewriteExif));
+                        }
+                        else if (ext == ".mov" || ext == ".mp4" || ext == ".mkv" || ext == ".avi" || ext == ".flv" || ext == ".webm" || ext == ".wmv" || ext == ".asf" || ext == ".mpg" || ext == ".mpeg" || ext == ".m4v" || ext == ".3gp")
+                        {
+                            rewriteExif = false;
+                            dateImgStat status;
+                            date = GetMovDate(file, out status);            // read file date
+                            if (status == dateImgStat.File) Log(lng("W_In", "Warning in") + " " + procFile + ": " + lng("W_NoMovTime", "No movie time in MediaInfo -> Using File date."), Color.Orange);
+
+                            // ----- Process date -----
+                            if (date != DateTime.MinValue)
+                            {
+                                if (item.TimeShift != TimeSpan.Zero)
+                                {
+                                    date += item.TimeShift;
+                                    //if (set.WriteShiftedTime) rewriteExif = true;
                                 }
                             }
                             else
@@ -673,5 +734,6 @@ namespace PhotoSort
 %s - photo seconds";
             MessageBox.Show(lng("MaskInfo", text), lng("UsedMaskSymbols", "Used Mask Symbols"), MessageBoxButtons.OK, MessageBoxIcon.None);
         }
+
     }
 }

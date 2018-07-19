@@ -77,10 +77,10 @@
             // 
             // olvFolders
             // 
-            resources.ApplyResources(this.olvFolders, "olvFolders");
             this.olvFolders.AllColumns.Add(this.colName);
             this.olvFolders.AllColumns.Add(this.colFullName);
             this.olvFolders.AllColumns.Add(this.colTimeShift);
+            resources.ApplyResources(this.olvFolders, "olvFolders");
             this.olvFolders.CellEditActivation = BrightIdeasSoftware.ObjectListView.CellEditActivateMode.SingleClick;
             this.olvFolders.CellEditUseWholeCell = false;
             this.olvFolders.CheckBoxes = true;
@@ -91,7 +91,6 @@
             this.olvFolders.Cursor = System.Windows.Forms.Cursors.Default;
             this.olvFolders.GridLines = true;
             this.olvFolders.Name = "olvFolders";
-            this.olvFolders.OverlayText.Text = resources.GetString("resource.Text");
             this.olvFolders.ShowGroups = false;
             this.olvFolders.UseCompatibleStateImageBehavior = false;
             this.olvFolders.View = System.Windows.Forms.View.Details;
@@ -99,8 +98,8 @@
             // colName
             // 
             this.colName.AspectName = "Name";
-            resources.ApplyResources(this.colName, "colName");
             this.colName.IsEditable = false;
+            resources.ApplyResources(this.colName, "colName");
             // 
             // colFullName
             // 
@@ -153,10 +152,6 @@
             resources.ApplyResources(this.txtDestFolder, "txtDestFolder");
             this.txtDestFolder.Name = "txtDestFolder";
             // 
-            // folderBrowserDialog1
-            // 
-            resources.ApplyResources(this.folderBrowserDialog1, "folderBrowserDialog1");
-            // 
             // gbSettings
             // 
             resources.ApplyResources(this.gbSettings, "gbSettings");
@@ -172,17 +167,17 @@
             // 
             // cbFileMask
             // 
-            resources.ApplyResources(this.cbFileMask, "cbFileMask");
             this.cbFileMask.FormattingEnabled = true;
             this.cbFileMask.Items.AddRange(new object[] {
             resources.GetString("cbFileMask.Items"),
             resources.GetString("cbFileMask.Items1")});
+            resources.ApplyResources(this.cbFileMask, "cbFileMask");
             this.cbFileMask.Name = "cbFileMask";
             // 
             // imgMask
             // 
-            resources.ApplyResources(this.imgMask, "imgMask");
             this.imgMask.Image = global::PhotoSort.Properties.Resources._1422621629_34225;
+            resources.ApplyResources(this.imgMask, "imgMask");
             this.imgMask.Name = "imgMask";
             this.imgMask.TabStop = false;
             this.imgMask.Click += new System.EventHandler(this.imgMask_Click);

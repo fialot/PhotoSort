@@ -121,7 +121,7 @@
     <value>Před zahájením kopírování vymazat cílovou složku</value>
   </data>
   <data name="chbSetImgDate.Text" xml:space="preserve">
-    <value>Nastavit čas souboru podle EXIF</value>
+    <value>Nastavit čas souboru podle EXIF/MediaInfo</value>
   </data>
   <data name="chbWriteToExif.Text" xml:space="preserve">
     <value>Zapsat posunutý čas do EXIF</value>
@@ -225,5 +225,8 @@
   </data>
   <data name="UsedMaskSymbols" xml:space="preserve">
     <value>Použité symboly masky</value>
+  </data>
+  <data name="W_NoMovTime" xml:space="preserve">
+    <value>V MediaInfu není uložen žádný čas -&gt; je použit čas souboru.</value>
   </data>
 </root>
