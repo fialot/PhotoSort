@@ -1,12 +1,12 @@
 # PhotoSort
-PhotoSort is a C# Windows form application. It is for merging photos from multiple cameras into one folder by date & time from EXIF. 
+PhotoSort is a C# Windows form application. It is for merging photos (& movies) from multiple cameras into one folder by date & time from EXIF (or MediInfo from movies). 
 
 ![alt text](https://github.com/fialot/PhotoSort/blob/master/PhotoSort.png)
 
 
 ## Features:
 
-- Merging photos from multiple cameras to one folder
+- Merging photos (& movies) from multiple cameras to one folder
 
 - EXIF DateTime shift for photos in input folder
 
