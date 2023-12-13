@@ -365,7 +365,25 @@ namespace PhotoSort
                 try
                 {
                     MediaInfoWrapper wrap = new MediaInfoWrapper(path);
-                    if (wrap.Tags != null && wrap.Tags.EncodedDate != null)
+                    //MediaInfo.
+                    MediaInfoList list = new MediaInfoList(false);
+                    list.Open(path);
+                    var creation = list.Get(0, StreamKind.General, 0, "com.apple.quicktime.creationdate");
+                    if (creation == "")
+                        creation = list.Get(0, StreamKind.General, 0, "Recorded_Date");
+                    list.Close();
+                    DateTime creationDate;
+                    if (DateTime.TryParse(creation, out creationDate))
+                    {
+                        status = dateImgStat.Exif;
+                        return creationDate;
+                    }
+                    else if (wrap.Tags != null && wrap.Tags.RecordedDate != null)
+                    {
+                        status = dateImgStat.Exif;
+                        return wrap.Tags.RecordedDate ?? DateTime.Now;
+                    }
+                    else if (wrap.Tags != null && wrap.Tags.EncodedDate != null)
                     {
                         status = dateImgStat.Exif;
                         return wrap.Tags.EncodedDate ?? DateTime.Now;
