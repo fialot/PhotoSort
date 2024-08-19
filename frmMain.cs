@@ -15,6 +15,8 @@ using ExifLib;
 using ExifLibrary;
 using System.Resources;
 using MediaInfo;
+using System.IO;
+using System.Globalization;
 
 namespace PhotoSort
 {
@@ -337,7 +339,7 @@ namespace PhotoSort
 
         #region Exif
 
-        enum dateImgStat { None, Exif, File }
+        enum dateImgStat { None, Exif, File, FileName }
 
         /// <summary>
         /// Get Image Date
@@ -373,9 +375,16 @@ namespace PhotoSort
                         creation = list.Get(0, StreamKind.General, 0, "Recorded_Date");
                     list.Close();
                     DateTime creationDate;
+                    string fileDateName = Path.GetFileNameWithoutExtension(path).Substring(4);
                     if (DateTime.TryParse(creation, out creationDate))
                     {
                         status = dateImgStat.Exif;
+                        return creationDate;
+                    } 
+                    else if (DateTime.TryParseExact(fileDateName,
+                        "yyyyMMdd_HHmmss", CultureInfo.InvariantCulture, DateTimeStyles.None, out creationDate))
+                    {
+                        status = dateImgStat.FileName;
                         return creationDate;
                     }
                     else if (wrap.Tags != null && wrap.Tags.RecordedDate != null)
@@ -441,6 +450,15 @@ namespace PhotoSort
 
                 }
                 catch { }
+
+                // ----- Get date from file name (e.g. IMG_20240811_090138.jpg) ---
+                string fileDateName = Path.GetFileNameWithoutExtension(path).Substring(4);
+                if (DateTime.TryParseExact(fileDateName,
+                        "yyyyMMdd_HHmmss", CultureInfo.InvariantCulture, DateTimeStyles.None, out date))
+                {
+                    status = dateImgStat.FileName;
+                    return date;
+                }
 
                 status = dateImgStat.File;
                 return System.IO.File.GetCreationTime(path);
